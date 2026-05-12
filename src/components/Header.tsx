@@ -31,7 +31,7 @@ export default function Header() {
       <div className="w-10 h-10 bg-brand-primary rounded-xl flex items-center justify-center transform hover:rotate-12 transition-transform">
         <LayoutIcon className="w-5 h-5 text-white" />
       </div>
-      <span className="text-xl font-black tracking-tighter text-brand-primary">Aetheria<span className="text-brand-accent">.</span></span>
+      <span className="text-xl font-black tracking-tighter text-brand-primary">Ashrey<span className="text-brand-accent"> Systems.</span></span>
     </div>
   );
 

@@ -28,7 +28,7 @@ export default function ServiceDetail() {
   return (
     <>
       <SEO 
-        title={service.metaTitle || `${service.title} | Aetheria Studio`}
+        title={service.metaTitle || `${service.title} | Ashrey Systems`}
         description={service.metaDescription || service.description}
       />
 
@@ -119,7 +119,7 @@ export default function ServiceDetail() {
       <Section id="outcomes" className="bg-brand-primary text-white overflow-hidden">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
           <div>
-            <h2 className="text-3xl md:text-5xl font-bold mb-8 italic">The Aetheria Edge.</h2>
+            <h2 className="text-3xl md:text-5xl font-bold mb-8 italic">The Ashrey Edge.</h2>
             <div className="space-y-6">
               {service.keyOutcomes.map((outcome, idx) => (
                 <motion.div 

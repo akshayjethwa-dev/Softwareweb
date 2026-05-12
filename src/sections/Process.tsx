@@ -68,7 +68,7 @@ export default function Process() {
           <div className="sticky top-32 bg-brand-primary rounded-[3rem] p-12 text-white overflow-hidden shadow-2xl shadow-brand-primary/20">
             <div className="absolute -top-24 -right-24 w-64 h-64 bg-brand-accent/10 rounded-full blur-3xl" />
             <div className="relative z-10">
-              <h4 className="text-3xl font-bold mb-8 tracking-tight">The Aetheria Principle</h4>
+              <h4 className="text-3xl font-bold mb-8 tracking-tight">The Ashrey Principle</h4>
               <div className="space-y-8">
                 {[
                   { t: 'Velocity over Inertia', d: 'Deliver something usable every 14 days.' },

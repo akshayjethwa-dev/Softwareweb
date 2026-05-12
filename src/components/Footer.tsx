@@ -17,7 +17,7 @@ export default function Footer() {
                 <div className="w-8 h-8 bg-brand-primary rounded-lg flex items-center justify-center">
                   <LayoutIcon className="w-4 h-4 text-white" />
                 </div>
-                <span className="text-xl font-black tracking-tighter text-brand-primary">Aetheria<span className="text-brand-accent">.</span></span>
+                <span className="text-xl font-black tracking-tighter text-brand-primary">Ashrey<span className="text-brand-accent"> Systems.</span></span>
               </div>
             </a>
             <p className="text-muted-foreground max-w-sm mb-8 leading-relaxed">

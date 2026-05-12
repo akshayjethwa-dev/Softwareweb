@@ -1,7 +1,7 @@
 import { NavItem } from '../types';
 
 export const siteConfig = {
-  name: 'Aetheria Studio',
+  name: 'Ashrey Systems',
   tagline: 'Engineering the next generation of digital excellence.',
   description: 'We build the tools that scale your business. From Custom Web & Mobile Apps to WhatsApp Automation & SEO-friendly funnels, we help Gujarat\'s SMEs automate operations and look enterprise-grade.',
   location: 'Anand, Gujarat',

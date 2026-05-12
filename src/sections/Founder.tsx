@@ -48,10 +48,10 @@ export default function Founder() {
           
           <div className="space-y-6 text-lg text-muted-foreground leading-relaxed mb-10">
             <p>
-              I founded Aetheria Studio because I saw too many local businesses in Gujarat struggling with slow, template-based websites that couldn't handle real scale.
+              I founded Ashrey Systems because I saw too many local businesses in Gujarat struggling with slow, template-based websites that couldn't handle real scale.
             </p>
             <p>
-              My background is in high-performance cloud architecture. At Aetheria, we apply enterprise-grade engineering principles to SMEs. Every project is overseen by me personally to ensure the technical foundation is unbreakable.
+              My background is in high-performance cloud architecture. At Ashrey, we apply enterprise-grade engineering principles to SMEs. Every project is overseen by me personally to ensure the technical foundation is unbreakable.
             </p>
           </div>
 

@@ -17,7 +17,7 @@ export default function Testimonials() {
           Voices from the <span className="text-brand-accent">field</span>.
         </motion.h2>
         <p className="text-xl text-muted-foreground">
-          Engineering success is measured by the growth of our partners. Here's what they say about the Aetheria process.
+          Engineering success is measured by the growth of our partners. Here's what they say about the Ashrey process.
         </p>
       </div>
 

@@ -80,13 +80,13 @@ export const persistUTMs = () => {
   
   const utms = getUTMParams();
   if (utms.utm_source) {
-    sessionStorage.setItem('aetheria_utms', JSON.stringify(utms));
+    sessionStorage.setItem('ashrey_utms', JSON.stringify(utms));
   }
 };
 
 export const getStoredUTMs = () => {
   if (typeof window === 'undefined') return {};
   
-  const stored = sessionStorage.getItem('aetheria_utms');
+  const stored = sessionStorage.getItem('ashrey_utms');
   return stored ? JSON.parse(stored) : {};
 };

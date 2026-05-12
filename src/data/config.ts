@@ -1,11 +1,11 @@
 export const BUSINESS_CONFIG = {
-  name: 'Aetheria Studio',
+  name: 'Ashrey Systems',
   tagline: 'Engineering the next generation of digital excellence.',
   description: 'A premium software development studio in Gujarat, India, specializing in custom apps, WhatsApp automation, and local SEO for SMEs.',
-  url: 'https://aetheria.studio', // Replace with real URL
+  url: 'https://ashrey.systems', // Replace with real URL
   whatsappNumber: '919876543210',
-  email: 'hello@aetheria.studio',
-  logo: 'https://aetheria.studio/logo.png',
+  email: 'hello@ashrey.systems',
+  logo: 'https://ashrey.systems/logo.png',
   address: {
     street: '102 Business Hub, Station Road',
     city: 'Anand',
@@ -18,9 +18,9 @@ export const BUSINESS_CONFIG = {
     longitude: 72.9289
   },
   socials: {
-    twitter: 'https://twitter.com/aetheria',
-    linkedin: 'https://linkedin.com/company/aetheria',
-    github: 'https://github.com/aetheria',
+    twitter: 'https://twitter.com/ashrey_systems',
+    linkedin: 'https://linkedin.com/company/ashrey_systems',
+    github: 'https://github.com/ashrey_systems',
   },
   defaultMessages: {
     consultation: 'Hello! I would like to book a free strategy session for my project.',

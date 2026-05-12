@@ -40,7 +40,7 @@ export default function WhyUs() {
             viewport={{ once: true }}
             className="text-4xl md:text-5xl font-bold tracking-tight mb-6"
           >
-            Why ambitious <span className="text-brand-accent">SMEs</span> choose Aetheria.
+            Why ambitious <span className="text-brand-accent">SMEs</span> choose Ashrey.
           </motion.h2>
           <p className="text-xl text-white/50">
             We operate as your fractional technical co-founders, bringing institutional-grade engineering to your local business processes.

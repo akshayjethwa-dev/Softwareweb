@@ -7,7 +7,7 @@ import SEO from '../components/SEO';
 export default function NotFound() {
   return (
     <>
-      <SEO title="404 - Page Not Found | Aetheria Studio" description="The page you are looking for does not exist." />
+      <SEO title="404 - Page Not Found | Ashrey Systems" description="The page you are looking for does not exist." />
       
       <Section className="min-h-[70vh] flex items-center justify-center pt-40">
         <div className="max-w-md mx-auto text-center">

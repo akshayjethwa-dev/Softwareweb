@@ -6,7 +6,7 @@ export const testimonials: Testimonial[] = [
     name: 'Rajesh Patel',
     role: 'Managing Director',
     company: 'Astra Chemicals',
-    content: 'Aetheria Studio transformed our messy paper-based inventory into a sleek digital engine. The offline-first app works perfectly in our warehouse zones.',
+    content: 'Ashrey Systems transformed our messy paper-based inventory into a sleek digital engine. The offline-first app works perfectly in our warehouse zones.',
   },
   {
     id: '2',
@@ -20,6 +20,6 @@ export const testimonials: Testimonial[] = [
     name: 'Dr. Vivek Shah',
     role: 'Founder',
     company: 'Orbit Health',
-    content: 'Building a telehealth platform for rural Gujarat needed more than code—it needed empathy. Aetheria delivered both.',
+    content: 'Building a telehealth platform for rural Gujarat needed more than code—it needed empathy. Ashrey delivered both.',
   },
 ];

@@ -8,7 +8,7 @@ import WhatsAppCTA from '../components/WhatsAppCTA';
 export default function ThankYou() {
   return (
     <>
-      <SEO title="Thank You | Aetheria Studio" description="We've received your request and will get back to you shortly." />
+      <SEO title="Thank You | Ashrey Systems" description="We've received your request and will get back to you shortly." />
       
       <Section className="min-h-[80vh] flex items-center justify-center pt-40">
         <div className="max-w-2xl mx-auto text-center">

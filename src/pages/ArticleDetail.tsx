@@ -36,7 +36,7 @@ export default function ArticleDetail() {
   return (
     <>
       <SEO 
-        title={`${article.title} | Aetheria Studio`} 
+        title={`${article.title} | Ashrey Systems`} 
         description={article.summary}
         type="article"
       />
@@ -79,7 +79,7 @@ export default function ArticleDetail() {
                 </div>
                 <div>
                   <div className="font-bold text-sm">{article.author}</div>
-                  <div className="text-xs text-muted-foreground uppercase tracking-widest font-bold">Aetheria Engineering</div>
+                  <div className="text-xs text-muted-foreground uppercase tracking-widest font-bold">Ashrey Engineering</div>
                 </div>
               </div>
             </motion.div>

@@ -26,7 +26,7 @@ export default function Contact() {
               </div>
               <div>
                 <h4 className="font-bold text-sm">Email Us</h4>
-                <p className="text-[10px] text-white/40 uppercase font-bold tracking-widest">hello@aetheria.studio</p>
+                <p className="text-[10px] text-white/40 uppercase font-bold tracking-widest">hello@ashrey.systems</p>
               </div>
             </a>
             

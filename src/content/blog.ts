@@ -25,7 +25,7 @@ Most ERP providers build for the "average" company. But in Gujarat's diverse ind
 ### The Custom Advantage
 A custom ERP built on scalable cloud architecture allows your software to adapt to your factory, not the other way around. We focus on sub-second data entry and automated reporting that makes your month-end audits a breeze.
     `,
-    metaTitle: 'Custom ERP for Manufacturing in Gujarat | Aetheria Insights',
+    metaTitle: 'Custom ERP for Manufacturing in Gujarat | Ashrey Insights',
     metaDescription: 'Stop fighting your software. Learn why custom ERP systems provide better ROI for SMEs in Gujarat\'s manufacturing hubs.'
   },
   {
@@ -50,7 +50,7 @@ By integrating with the Official WhatsApp Business API (not just the app on a ph
 - **Multi-Agent Access:** 10 employees can respond to the same official number simultaneously from their desktops.
 - **Broadcast Legally:** Send transactional alerts without the risk of getting your number banned.
     `,
-    metaTitle: 'Scaling Customer Support with WhatsApp API | Aetheria Studio',
+    metaTitle: 'Scaling Customer Support with WhatsApp API | Ashrey Systems',
     metaDescription: 'Discover how Official WhatsApp Business API can automate your customer support and lead qualification workflows.'
   },
   {

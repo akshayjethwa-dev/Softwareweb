@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 Disallow: /thank-you
 
-Sitemap: https://aetheria.studio/sitemap.xml
+Sitemap: https://ashrey.systems/sitemap.xml

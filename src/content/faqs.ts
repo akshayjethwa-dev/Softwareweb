@@ -3,7 +3,7 @@ import { FAQ } from '../types';
 export const faqs: FAQ[] = [
   {
     question: "Do I actually own the code after you build it?",
-    answer: "Yes, 100%. Upon final payment, we transfer the full intellectual property and source code repository to you. We believe you should stay with Aetheria because of our quality, not because we hold your code hostage."
+    answer: "Yes, 100%. Upon final payment, we transfer the full intellectual property and source code repository to you. We believe you should stay with Ashrey because of our quality, not because we hold your code hostage."
   },
   {
     question: "How do you protect my proprietary business logic (NDA)?",

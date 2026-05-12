@@ -20,7 +20,7 @@ export default function Blog() {
   return (
     <>
       <SEO 
-        title="Insights & Engineering Blog | Aetheria Studio" 
+        title="Insights & Engineering Blog | Ashrey Systems" 
         description="Deep dives into digital transformation, WhatsApp automation, and custom software engineering for scaling SMEs." 
       />
       

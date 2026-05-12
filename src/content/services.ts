@@ -9,7 +9,7 @@ export const services: Service[] = [
     icon: 'Smartphone',
     keyOutcomes: ['Cloud-Native Architecture', 'Seamless UX', 'Enterprise-Grade Security'],
     typicalClients: 'SMEs looking for proprietary workflows.',
-    metaTitle: 'Custom Software & Mobile App Development | Aetheria Studio',
+    metaTitle: 'Custom Software & Mobile App Development | Ashrey Systems',
     metaDescription: 'We build scalable web and mobile applications tailored to Gujarat\'s growing SMEs. Engineering excellence for your unique business logic.',
     fullDescription: 'In a world of template solutions, custom software is your competitive advantage. We architect applications that don\'t just "work" but solve specific operational bottlenecks. Whether it\'s a custom CRM for your medical clinic or a proprietary inventory system for your factory, we build with scale and security at the core.',
     features: [
@@ -30,7 +30,7 @@ export const services: Service[] = [
     icon: 'MessageSquare',
     keyOutcomes: ['Automated Lead Qualification', '24/7 Customer Support', 'Instant Notifications'],
     typicalClients: 'Retailers and service providers.',
-    metaTitle: 'WhatsApp Business API & Chatbot Automation | Aetheria Studio',
+    metaTitle: 'WhatsApp Business API & Chatbot Automation | Ashrey Systems',
     metaDescription: 'Automate your customer service and lead qualification with Official WhatsApp API. 24/7 engagement for your business in Gujarat.',
     fullDescription: 'Email is ignored. SMS is spam. But WhatsApp is where your customers are. Our WhatsApp automation services help you leverage the Official Business API to send automated notifications, qualify leads with AI chatbots, and handle customer support at scale without increasing your team size.',
     features: [
@@ -47,7 +47,7 @@ export const services: Service[] = [
     icon: 'Zap',
     keyOutcomes: ['Psychology-Driven UX', 'Fast Loading Times', 'A/B Tested Layouts'],
     typicalClients: 'Real Estate and Education consultancies.',
-    metaTitle: 'Lead Generation Funnels & Landing Page Optimization | Aetheria Studio',
+    metaTitle: 'Lead Generation Funnels & Landing Page Optimization | Ashrey Systems',
     metaDescription: 'High-conversion funnels designed for real estate and education firms in Gujarat. Maximize your ad spend with engineering-led design.',
     fullDescription: 'Traffic without conversion is just an expense. We build "Engineering-Led Funnels"—landing pages that load in under 1 second and use behavioral psychology to guide visitors toward a conversion. Perfect for businesses in high-competition industries like Real Estate and Coaching.'
   },
@@ -59,7 +59,7 @@ export const services: Service[] = [
     icon: 'Globe',
     keyOutcomes: ['GMB Optimization', 'Technical Performance', 'Local Content Strategy'],
     typicalClients: 'Gujarat-based medical clinics and salons.',
-    metaTitle: 'Local SEO & Technical Website Optimization Gujarat | Aetheria Studio',
+    metaTitle: 'Local SEO & Technical Website Optimization Gujarat | Ashrey Systems',
     metaDescription: 'Dominate Google search results in your city. Specialized Local SEO for doctors, clinics, and SMEs in Anand and Vadodara.',
     fullDescription: 'If a customer searches for your service "near me" and you aren\'t in the Top 3, you\'re losing money. Our Local SEO strategy goes beyond just keywords; we optimize your technical core web vitals, manage your Google Business Profile, and build a local citation network that makes you the authority in your region.'
   },
