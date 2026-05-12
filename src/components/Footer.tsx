@@ -1,0 +1,74 @@
+import { getSiteConfig, getNavItems, getServices } from '../content';
+import { Github, Twitter, Linkedin, ExternalLink, Layout as LayoutIcon } from 'lucide-react';
+
+export default function Footer() {
+  const currentYear = new Date().getFullYear();
+  const config = getSiteConfig();
+  const navItems = getNavItems();
+  const services = getServices();
+
+  return (
+    <footer className="bg-background py-24 px-6 border-t border-border">
+      <div className="max-w-7xl mx-auto">
+        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-12 mb-20">
+          <div className="col-span-2 lg:col-span-2">
+            <a href="#hero" className="inline-block mb-6">
+              <div className="flex items-center gap-3">
+                <div className="w-8 h-8 bg-brand-primary rounded-lg flex items-center justify-center">
+                  <LayoutIcon className="w-4 h-4 text-white" />
+                </div>
+                <span className="text-xl font-black tracking-tighter text-brand-primary">Aetheria<span className="text-brand-accent">.</span></span>
+              </div>
+            </a>
+            <p className="text-muted-foreground max-w-sm mb-8 leading-relaxed">
+              {config.description}
+            </p>
+            <div className="flex gap-4">
+              <a href="#" className="p-2 border border-border rounded-lg hover:border-brand-primary transition-colors text-muted-foreground hover:text-brand-primary"><Twitter className="w-5 h-5" /></a>
+              <a href="#" className="p-2 border border-border rounded-lg hover:border-brand-primary transition-colors text-muted-foreground hover:text-brand-primary"><Linkedin className="w-5 h-5" /></a>
+              <a href="#" className="p-2 border border-border rounded-lg hover:border-brand-primary transition-colors text-muted-foreground hover:text-brand-primary"><Github className="w-5 h-5" /></a>
+            </div>
+          </div>
+          
+          <div>
+            <h4 className="font-bold mb-6 text-sm uppercase tracking-wider">Navigation</h4>
+            <ul className="space-y-4 text-sm text-muted-foreground">
+              {navItems.slice(0, 5).map(item => (
+                <li key={item.label}><a href={item.href} className="hover:text-brand-primary transition-colors">{item.label}</a></li>
+              ))}
+            </ul>
+          </div>
+
+          <div>
+            <h4 className="font-bold mb-6 text-sm uppercase tracking-wider">Services</h4>
+            <ul className="space-y-4 text-sm text-muted-foreground">
+              {services.slice(0, 4).map(service => (
+                <li key={service.id}><a href={`#services`} className="hover:text-brand-primary transition-colors">{service.title}</a></li>
+              ))}
+            </ul>
+          </div>
+
+          <div>
+            <h4 className="font-bold mb-6 text-sm uppercase tracking-wider">Our Impact</h4>
+            <ul className="space-y-4 text-sm text-muted-foreground">
+              <li><a href="#case-studies" className="hover:text-brand-primary transition-colors">Case Studies</a></li>
+              <li><a href="#faq" className="hover:text-brand-primary transition-colors">FAQ</a></li>
+              <li><a href="#hero" className="hover:text-brand-primary transition-colors">Metrics</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <div className="pt-8 border-t border-border flex flex-col md:flex-row justify-between items-center gap-6">
+          <div className="text-xs text-muted-foreground space-y-1 text-center md:text-left">
+            <p>© {currentYear} {config.name}. All rights reserved.</p>
+            <p>A premium software development studio based in {config.location}.</p>
+          </div>
+          <div className="flex gap-8 text-xs text-muted-foreground uppercase tracking-widest font-semibold">
+            <a href="#" className="hover:text-foreground transition-colors">Privacy Policy</a>
+            <a href="#" className="hover:text-foreground transition-colors">Terms of Service</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+  );
+}
