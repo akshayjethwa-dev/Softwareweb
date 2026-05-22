@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { getSiteConfig, getNavItems, getServices } from '../content';
 import { services as fallbackServices } from '../content/services';
 import { Service } from '../types';
-import { Github, Twitter, Linkedin, ExternalLink, Layout as LayoutIcon } from 'lucide-react';
+import { Github, Twitter, Linkedin, Layout as LayoutIcon } from 'lucide-react';
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
@@ -33,14 +34,14 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-12 mb-20">
           <div className="col-span-2 lg:col-span-2">
-            <a href="#hero" className="inline-block mb-6">
+            <Link to="/" className="inline-block mb-6">
               <div className="flex items-center gap-3">
                 <div className="w-8 h-8 bg-brand-primary rounded-lg flex items-center justify-center">
                   <LayoutIcon className="w-4 h-4 text-white" />
                 </div>
                 <span className="text-xl font-black tracking-tighter text-brand-primary">Ashrey<span className="text-brand-accent"> Systems.</span></span>
               </div>
-            </a>
+            </Link>
             <p className="text-muted-foreground max-w-sm mb-8 leading-relaxed">
               {config.description}
             </p>
@@ -55,7 +56,11 @@ export default function Footer() {
             <h4 className="font-bold mb-6 text-sm uppercase tracking-wider">Navigation</h4>
             <ul className="space-y-4 text-sm text-muted-foreground">
               {navItems.slice(0, 5).map(item => (
-                <li key={item.label}><a href={item.href} className="hover:text-brand-primary transition-colors">{item.label}</a></li>
+                <li key={item.label}>
+                  <Link to={item.href} className="hover:text-brand-primary transition-colors">
+                    {item.label}
+                  </Link>
+                </li>
               ))}
             </ul>
           </div>
@@ -65,7 +70,11 @@ export default function Footer() {
             <ul className="space-y-4 text-sm text-muted-foreground">
               {/* Because 'services' is now a valid array from React state, slice() works perfectly */}
               {services.slice(0, 4).map(service => (
-                <li key={service.id}><a href={`#services`} className="hover:text-brand-primary transition-colors">{service.title}</a></li>
+                <li key={service.id}>
+                  <Link to="/services" className="hover:text-brand-primary transition-colors">
+                    {service.title}
+                  </Link>
+                </li>
               ))}
             </ul>
           </div>
@@ -73,9 +82,9 @@ export default function Footer() {
           <div>
             <h4 className="font-bold mb-6 text-sm uppercase tracking-wider">Our Impact</h4>
             <ul className="space-y-4 text-sm text-muted-foreground">
-              <li><a href="#case-studies" className="hover:text-brand-primary transition-colors">Case Studies</a></li>
-              <li><a href="#faq" className="hover:text-brand-primary transition-colors">FAQ</a></li>
-              <li><a href="#hero" className="hover:text-brand-primary transition-colors">Metrics</a></li>
+              <li><Link to="/case-studies" className="hover:text-brand-primary transition-colors">Case Studies</Link></li>
+              <li><Link to="/faq" className="hover:text-brand-primary transition-colors">FAQ</Link></li>
+              <li><Link to="/" className="hover:text-brand-primary transition-colors">Metrics</Link></li>
             </ul>
           </div>
         </div>

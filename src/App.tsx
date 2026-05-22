@@ -17,6 +17,16 @@ import ThankYou from './pages/ThankYou';
 import NotFound from './pages/NotFound';
 import { persistUTMs } from './lib/analytics';
 
+// Import New Dedicated Section Pages
+import ServicesPage from './pages/ServicesPage';
+import IndustriesPage from './pages/IndustriesPage';
+import CaseStudiesPage from './pages/CaseStudiesPage';
+import PricingPage from './pages/PricingPage';
+import ProcessPage from './pages/ProcessPage';
+import TechStackPage from './pages/TechStackPage';
+import FAQPage from './pages/FAQPage';
+import ContactPage from './pages/ContactPage';
+
 // Scroll to top on route change
 function ScrollToTop() {
   const { pathname, hash } = useLocation();
@@ -54,10 +64,23 @@ export default function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/thank-you" element={<ThankYou />} />
+            
+            {/* New Dedicated Section Pages */}
+            <Route path="/services" element={<ServicesPage />} />
+            <Route path="/industries" element={<IndustriesPage />} />
+            <Route path="/case-studies" element={<CaseStudiesPage />} />
+            <Route path="/pricing" element={<PricingPage />} />
+            <Route path="/process" element={<ProcessPage />} />
+            <Route path="/tech-stack" element={<TechStackPage />} />
+            <Route path="/faq" element={<FAQPage />} />
+            <Route path="/contact" element={<ContactPage />} />
+            
+            {/* Detail & Blog Pages */}
             <Route path="/services/:slug" element={<ServiceDetail />} />
             <Route path="/case-studies/:slug" element={<CaseStudyDetail />} />
             <Route path="/insights" element={<Blog />} />
             <Route path="/insights/:slug" element={<ArticleDetail />} />
+            
             {/* Fallback */}
             <Route path="*" element={<NotFound />} />
           </Routes>
@@ -66,4 +89,3 @@ export default function App() {
     </HelmetProvider>
   );
 }
-
