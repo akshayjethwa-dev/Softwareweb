@@ -1,85 +1,136 @@
+// src/content/index.ts
 import { sanityClient } from '../lib/sanityClient';
 import { fetchSiteConfig } from '../lib/queries';
-// --- ASYNC FETCH FUNCTIONS ---
+
+// --- ASYNC FETCH FUNCTIONS WITH GRACEFUL FALLBACKS ---
 
 export const getServices = async () => {
-  // We map slug.current to "id" so your React components don't break
-  return sanityClient.fetch(`*[_type == "service"] | order(title asc) {
-    ...,
-    "id": slug.current,
-    "faqs": faqs[]->{question, answer}
-  }`);
+  try {
+    const data = await sanityClient.fetch(`*[_type == "service"] | order(title asc) {
+      ...,
+      "id": slug.current,
+      "faqs": faqs[]->{question, answer}
+    }`);
+    return data || [];
+  } catch (error) {
+    console.error("Sanity fetch failed for Services:", error);
+    return [];
+  }
 };
 
 export const getServiceById = async (slug: string) => {
-  return sanityClient.fetch(`*[_type == "service" && slug.current == $slug][0]{
-    ...,
-    "id": slug.current,
-    "faqs": faqs[]->{question, answer}
-  }`, { slug });
+  try {
+    return await sanityClient.fetch(`*[_type == "service" && slug.current == $slug][0]{
+      ...,
+      "id": slug.current,
+      "faqs": faqs[]->{question, answer}
+    }`, { slug });
+  } catch (error) {
+    console.error(`Sanity fetch failed for Service ${slug}:`, error);
+    return null;
+  }
 };
 
 export const getCaseStudies = async () => {
-  return sanityClient.fetch(`*[_type == "caseStudy"] | order(_createdAt desc) {
-    ...,
-    "id": slug.current,
-    "imageUrl": image.asset->url 
-  }`);
+  try {
+    const data = await sanityClient.fetch(`*[_type == "caseStudy"] | order(_createdAt desc) {
+      ...,
+      "id": slug.current,
+      "imageUrl": image.asset->url 
+    }`);
+    return data || [];
+  } catch (error) {
+    console.error("Sanity fetch failed for Case Studies:", error);
+    return [];
+  }
 };
 
 export const getCaseStudyById = async (slug: string) => {
-  return sanityClient.fetch(`*[_type == "caseStudy" && slug.current == $slug][0] {
-    ...,
-    "id": slug.current,
-    "imageUrl": image.asset->url
-  }`, { slug });
+  try {
+    return await sanityClient.fetch(`*[_type == "caseStudy" && slug.current == $slug][0] {
+      ...,
+      "id": slug.current,
+      "imageUrl": image.asset->url
+    }`, { slug });
+  } catch (error) {
+    console.error(`Sanity fetch failed for Case Study ${slug}:`, error);
+    return null;
+  }
 };
 
 export const getArticles = async () => {
-  return sanityClient.fetch(`*[_type == "article"] | order(date desc) {
-    ...,
-    "id": slug.current,
-    "imageUrl": image.asset->url
-  }`);
+  try {
+    const data = await sanityClient.fetch(`*[_type == "article"] | order(date desc) {
+      ...,
+      "id": slug.current,
+      "imageUrl": image.asset->url
+    }`);
+    return data || [];
+  } catch (error) {
+    console.error("Sanity fetch failed for Articles:", error);
+    return [];
+  }
 };
 
 export const getArticleBySlug = async (slug: string) => {
-  return sanityClient.fetch(`*[_type == "article" && slug.current == $slug][0] {
-    ...,
-    "id": slug.current,
-    "imageUrl": image.asset->url
-  }`, { slug });
+  try {
+    return await sanityClient.fetch(`*[_type == "article" && slug.current == $slug][0] {
+      ...,
+      "id": slug.current,
+      "imageUrl": image.asset->url
+    }`, { slug });
+  } catch (error) {
+    console.error(`Sanity fetch failed for Article ${slug}:`, error);
+    return null;
+  }
 };
 
 export const getPlans = async () => {
-  return sanityClient.fetch(`*[_type == "plan"] | order(price asc)`);
+  try {
+    const data = await sanityClient.fetch(`*[_type == "plan"] | order(price asc)`);
+    return data || [];
+  } catch (error) {
+    console.error("Sanity fetch failed for Plans:", error);
+    return [];
+  }
 };
 
 export const getTestimonials = async () => {
-  return sanityClient.fetch(`*[_type == "testimonial"] {
-    ...,
-    "avatar": avatar.asset->url
-  }`);
+  try {
+    const data = await sanityClient.fetch(`*[_type == "testimonial"] {
+      ...,
+      "avatar": avatar.asset->url
+    }`);
+    return data || [];
+  } catch (error) {
+    console.error("Sanity fetch failed for Testimonials:", error);
+    return [];
+  }
 };
 
 export const getFAQs = async () => {
-  return sanityClient.fetch(`*[_type == "faq"]`);
+  try {
+    const data = await sanityClient.fetch(`*[_type == "faq"]`);
+    return data || [];
+  } catch (error) {
+    console.error("Sanity fetch failed for FAQs:", error);
+    return [];
+  }
 };
 
-// For static things you haven't moved to Sanity yet, you can keep them static for now:
+// --- STATIC MODULES (Kept as requested since they are not in Sanity yet) ---
 import { siteConfig } from './siteConfig';
 import { process } from './process';
 import { industries } from './industries';
 import { navItems } from './navigation';
 
-// getSiteConfigAsync now tries Sanity first, falls back to static
 export async function getSiteConfigAsync() {
   try {
     const data = await fetchSiteConfig();
     return data ?? siteConfig;
   } catch (error) {
     console.error("Failed to fetch Site Config from Sanity, using fallback:", error);
-    return siteConfig; // fallback if Sanity is unreachable
+    return siteConfig;
   }
 }
 

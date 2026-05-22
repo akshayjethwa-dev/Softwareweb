@@ -17,9 +17,10 @@ export default function CaseStudies() {
     const fetchCaseStudies = async () => {
       try {
         const data = await getCaseStudies();
-        setCaseStudies(data);
+        setCaseStudies(data || []);
       } catch (error) {
         console.error("Failed to fetch case studies:", error);
+        setCaseStudies([]);
       } finally {
         setLoading(false);
       }
@@ -45,6 +46,11 @@ export default function CaseStudies() {
         <div className="animate-pulse text-brand-accent font-bold text-xl tracking-widest uppercase">Loading Work...</div>
       </Section>
     );
+  }
+
+  // Graceful "No Data" state if Sanity is empty or network fails
+  if (!caseStudies || caseStudies.length === 0) {
+    return null; // Gracefully hide section if no data is found
   }
 
   return (

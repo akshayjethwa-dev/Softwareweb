@@ -1,7 +1,7 @@
+// src/sections/Services.tsx
 import { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
 import { getServices } from '../content';
-import { services as fallbackServices } from '../content/services';
 import { Service } from '../types';
 import { CheckCircle2, AlertCircle, ArrowRight, Lightbulb, Users, Workflow, MessageSquare, Cpu } from 'lucide-react';
 import Section from '../components/Section';
@@ -16,20 +16,16 @@ const IconMap: Record<string, any> = {
 };
 
 export default function Services() {
-  // 1. Set initial state to your static fallback data so the page loads instantly
-  const [services, setServices] = useState<Service[]>(fallbackServices);
+  // Initialize purely empty, strictly relying on Sanity now
+  const [services, setServices] = useState<Service[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  // 2. Fetch fresh data from Sanity in the background
   useEffect(() => {
     const fetchServicesData = async () => {
-      try {
-        const data = await getServices();
-        if (data && data.length > 0) {
-          setServices(data);
-        }
-      } catch (error) {
-        console.error("Failed to fetch services from Sanity:", error);
-      }
+      setLoading(true);
+      const data = await getServices();
+      setServices(data || []);
+      setLoading(false);
     };
 
     fetchServicesData();
@@ -38,6 +34,20 @@ export default function Services() {
   const handleServiceClick = (serviceName: string) => {
     trackEvent('consultation_cta_click', { service: serviceName, location: 'services_grid' });
   };
+
+  // Graceful loading state
+  if (loading) {
+    return (
+      <Section id="services" className="bg-muted/40 relative overflow-hidden min-h-[50vh] flex items-center justify-center">
+         <div className="animate-pulse text-brand-accent font-bold text-xl tracking-widest uppercase">Loading Services...</div>
+      </Section>
+    );
+  }
+
+  // Graceful "No Data" state if Sanity is empty or network fails
+  if (!services || services.length === 0) {
+    return null; // Simply hide the section if there's no data
+  }
 
   return (
     <Section id="services" className="bg-muted/40 relative overflow-hidden">
