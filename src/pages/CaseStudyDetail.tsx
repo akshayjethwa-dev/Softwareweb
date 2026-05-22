@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { motion } from 'motion/react';
 import { getCaseStudyById, getCaseStudies, getServices } from '../content';
@@ -6,11 +7,45 @@ import SEO from '../components/SEO';
 import Breadcrumbs from '../components/Breadcrumbs';
 import { CheckCircle2, ArrowLeft, ExternalLink, Code2, Target, Zap } from 'lucide-react';
 import Contact from '../sections/Contact';
+import { CaseStudy, Service } from '../types';
 
 export default function CaseStudyDetail() {
   const { slug } = useParams<{ slug: string }>();
-  const project = getCaseStudyById(slug || '');
-  const allProjects = getCaseStudies();
+  
+  const [project, setProject] = useState<CaseStudy | null>(null);
+  const [allProjects, setAllProjects] = useState<CaseStudy[]>([]);
+  const [servicesList, setServicesList] = useState<Service[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        const [projectData, projectsData, servicesData] = await Promise.all([
+          getCaseStudyById(slug || ''),
+          getCaseStudies(),
+          getServices()
+        ]);
+        setProject(projectData);
+        setAllProjects(projectsData);
+        setServicesList(servicesData);
+      } catch (error) {
+        console.error("Error fetching case study details:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [slug]);
+
+  if (loading) {
+    return (
+      <Section className="min-h-[60vh] flex flex-col items-center justify-center text-center">
+        <div className="animate-pulse text-brand-primary font-bold text-xl tracking-widest uppercase">Loading Work Details...</div>
+      </Section>
+    );
+  }
 
   if (!project) {
     return (
@@ -47,7 +82,9 @@ export default function CaseStudyDetail() {
                 {project.category}
               </span>
               <span className="w-1.5 h-1.5 rounded-full bg-border" />
-              <span className="text-sm font-bold text-muted-foreground uppercase tracking-wider">{project.techStack[0]} Project</span>
+              <span className="text-sm font-bold text-muted-foreground uppercase tracking-wider">
+                {project.techStack?.[0] || 'Digital'} Project
+              </span>
             </div>
 
             <h1 className="text-5xl md:text-7xl font-bold tracking-tight mb-8 leading-[1.1]">
@@ -65,7 +102,8 @@ export default function CaseStudyDetail() {
               </div>
               <div>
                 <div className="text-xs font-bold uppercase tracking-widest text-muted-foreground mb-1">Industry</div>
-                <div className="font-bold">E-commerce</div>
+                {/* Fallback to category if industry name mapping is missing */}
+                <div className="font-bold">{project.category || 'Tech'}</div>
               </div>
               <div>
                 <div className="text-xs font-bold uppercase tracking-widest text-muted-foreground mb-1">Role</div>
@@ -82,14 +120,16 @@ export default function CaseStudyDetail() {
         <motion.div 
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 40 }}
-          className="max-w-6xl mx-auto rounded-[3rem] overflow-hidden shadow-2xl relative aspect-[21/9] mt-20"
+          className="max-w-6xl mx-auto rounded-[3rem] overflow-hidden shadow-2xl relative aspect-21/9 mt-20 bg-muted"
         >
-          <img 
-            src={project.imageUrl} 
-            alt={project.clientName}
-            className="w-full h-full object-cover"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+          {project.imageUrl && (
+            <img 
+              src={project.imageUrl} 
+              alt={project.clientName}
+              className="w-full h-full object-cover"
+            />
+          )}
+          <div className="absolute inset-0 bg-linear-to-t from-black/60 to-transparent" />
         </motion.div>
       </Section>
 
@@ -120,7 +160,7 @@ export default function CaseStudyDetail() {
             <div className="p-12 bg-background border border-border rounded-[3rem] space-y-8">
               <h2 className="text-3xl font-bold">Key Impacts & Results</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {project.impact.map((item, idx) => (
+                {project.impact?.map((item, idx) => (
                   <div key={idx} className="flex gap-4">
                     <div className="mt-1">
                       <CheckCircle2 className="w-6 h-6 text-brand-accent" />
@@ -137,7 +177,7 @@ export default function CaseStudyDetail() {
               <Code2 className="w-10 h-10 mb-6 opacity-30" />
               <h3 className="text-2xl font-bold mb-6">Technical Architecture</h3>
               <div className="flex flex-wrap gap-2 mb-10">
-                {project.techStack.map(tech => (
+                {project.techStack?.map(tech => (
                   <span key={tech} className="px-4 py-2 bg-white/10 rounded-xl text-sm font-bold border border-white/10">
                     {tech}
                   </span>
@@ -145,8 +185,8 @@ export default function CaseStudyDetail() {
               </div>
               <h3 className="text-xl font-bold mb-4">Focus Areas</h3>
               <ul className="space-y-3 mb-10 opacity-70">
-                {project.servicesUsed.map(serviceName => {
-                  const s = getServices().find(srv => srv.title === serviceName);
+                {project.servicesUsed?.map(serviceName => {
+                  const s = servicesList.find(srv => srv.title === serviceName);
                   return (
                     <li key={serviceName} className="flex items-center gap-2">
                       <span className="w-1 h-1 rounded-full bg-white" />

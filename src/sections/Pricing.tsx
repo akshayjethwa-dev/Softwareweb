@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
 import { getPlans } from '../content';
 import { Check, X, ArrowRight, Zap, Shield, Crown } from 'lucide-react';
@@ -7,15 +8,40 @@ import WhatsAppCTA from '../components/WhatsAppCTA';
 import { BUSINESS_CONFIG } from '../data/config';
 import Section from '../components/Section';
 import { trackEvent } from '../lib/analytics';
+import { PricingPlan } from '../types';
 
 export default function Pricing() {
   const { openModal } = useLeadModal();
-  const plans = getPlans();
+  const [plans, setPlans] = useState<PricingPlan[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchPlans = async () => {
+      try {
+        const data = await getPlans();
+        setPlans(data);
+      } catch (error) {
+        console.error("Failed to fetch plans:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchPlans();
+  }, []);
 
   const handlePlanClick = (planName: string) => {
     trackEvent('pricing_plan_click', { plan: planName });
     openModal(`Discuss: ${planName}`);
   };
+
+  if (loading) {
+    return (
+      <Section id="pricing" className="bg-white text-brand-primary overflow-hidden flex items-center justify-center min-h-[50vh]">
+        <div className="animate-pulse text-brand-primary/40 font-bold text-xl tracking-widest uppercase">Loading Plans...</div>
+      </Section>
+    );
+  }
 
   return (
     <Section id="pricing" className="bg-white text-brand-primary overflow-hidden">
@@ -93,11 +119,11 @@ export default function Pricing() {
               </p>
             </div>
 
-            <div className="space-y-6 mb-10 flex-grow">
+            <div className="space-y-6 mb-10 grow">
               <div className="pt-6 border-t border-current/10">
                 <h4 className="text-[10px] font-black uppercase tracking-widest opacity-40 mb-4 italic">What's included:</h4>
                 <ul className="space-y-4">
-                  {plan.features.map(feature => (
+                  {plan.features?.map(feature => (
                     <li key={feature} className="flex items-start gap-3">
                       <Check className={cn(
                         "w-5 h-5 shrink-0",

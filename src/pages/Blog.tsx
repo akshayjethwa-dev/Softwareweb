@@ -1,17 +1,34 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
 import { Link } from 'react-router-dom';
 import { getArticles } from '../content';
 import Section from '../components/Section';
 import SEO from '../components/SEO';
 import Breadcrumbs from '../components/Breadcrumbs';
-import { ArrowRight, Clock, User, Tag } from 'lucide-react';
+import { ArrowRight, Clock, User } from 'lucide-react';
+import { Article } from '../types';
 
 const CATEGORIES = ['All', 'App Development', 'WhatsApp Automation', 'Local SEO', 'SME Digital Transformation'];
 
 export default function Blog() {
   const [activeCategory, setActiveCategory] = useState('All');
-  const allArticles = getArticles();
+  const [allArticles, setAllArticles] = useState<Article[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchArticles = async () => {
+      try {
+        const data = await getArticles();
+        setAllArticles(data);
+      } catch (error) {
+        console.error("Failed to fetch articles:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchArticles();
+  }, []);
 
   const filteredArticles = activeCategory === 'All' 
     ? allArticles 
@@ -54,51 +71,57 @@ export default function Blog() {
           ))}
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-          {filteredArticles.map((article, idx) => (
-            <motion.article
-              key={article.id}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: idx * 0.1 }}
-              className="group flex flex-col h-full bg-muted/10 border border-border rounded-[2rem] overflow-hidden hover:border-brand-primary transition-all hover:shadow-2xl hover:shadow-brand-primary/5"
-            >
-              <Link to={`/insights/${article.slug}`} className="block aspect-[16/10] overflow-hidden">
-                <img 
-                  src={article.imageUrl} 
-                  alt={article.title} 
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                />
-              </Link>
-              
-              <div className="p-8 flex-grow flex flex-col">
-                <div className="flex items-center gap-4 text-xs font-bold uppercase tracking-widest text-brand-primary mb-4">
-                  <span>{article.category}</span>
-                  <div className="w-1 h-1 rounded-full bg-border" />
-                  <span className="flex items-center gap-1"><Clock className="w-3 h-3" /> {article.readTime}</span>
-                </div>
-
-                <h2 className="text-2xl font-bold mb-4 leading-tight group-hover:text-brand-primary transition-colors">
-                  <Link to={`/insights/${article.slug}`}>{article.title}</Link>
-                </h2>
+        {loading ? (
+          <div className="flex justify-center items-center py-20">
+            <div className="animate-pulse text-brand-primary font-bold text-xl tracking-widest uppercase">Loading Insights...</div>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+            {filteredArticles.map((article, idx) => (
+              <motion.article
+                key={article.id}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: idx * 0.1 }}
+                className="group flex flex-col h-full bg-muted/10 border border-border rounded-[2rem] overflow-hidden hover:border-brand-primary transition-all hover:shadow-2xl hover:shadow-brand-primary/5"
+              >
+                <Link to={`/insights/${article.slug}`} className="block aspect-16/10 overflow-hidden">
+                  <img 
+                    src={article.imageUrl} 
+                    alt={article.title} 
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
+                </Link>
                 
-                <p className="text-muted-foreground text-sm leading-relaxed mb-6 line-clamp-3">
-                  {article.summary}
-                </p>
-
-                <div className="mt-auto pt-6 border-t border-border flex items-center justify-between">
-                  <div className="flex items-center gap-2 text-xs font-bold">
-                    <User className="w-3 h-3 opacity-50" />
-                    {article.author}
+                <div className="p-8 grow flex flex-col">
+                  <div className="flex items-center gap-4 text-xs font-bold uppercase tracking-widest text-brand-primary mb-4">
+                    <span>{article.category}</span>
+                    <div className="w-1 h-1 rounded-full bg-border" />
+                    <span className="flex items-center gap-1"><Clock className="w-3 h-3" /> {article.readTime}</span>
                   </div>
-                  <Link to={`/insights/${article.slug}`} className="text-brand-primary text-sm font-bold flex items-center gap-2 group/link">
-                    Read Post <ArrowRight className="w-4 h-4 group-hover/link:translate-x-1 transition-transform" />
-                  </Link>
+
+                  <h2 className="text-2xl font-bold mb-4 leading-tight group-hover:text-brand-primary transition-colors">
+                    <Link to={`/insights/${article.slug}`}>{article.title}</Link>
+                  </h2>
+                  
+                  <p className="text-muted-foreground text-sm leading-relaxed mb-6 line-clamp-3">
+                    {article.summary}
+                  </p>
+
+                  <div className="mt-auto pt-6 border-t border-border flex items-center justify-between">
+                    <div className="flex items-center gap-2 text-xs font-bold">
+                      <User className="w-3 h-3 opacity-50" />
+                      {article.author}
+                    </div>
+                    <Link to={`/insights/${article.slug}`} className="text-brand-primary text-sm font-bold flex items-center gap-2 group/link">
+                      Read Post <ArrowRight className="w-4 h-4 group-hover/link:translate-x-1 transition-transform" />
+                    </Link>
+                  </div>
                 </div>
-              </div>
-            </motion.article>
-          ))}
-        </div>
+              </motion.article>
+            ))}
+          </div>
+        )}
       </Section>
     </>
   );

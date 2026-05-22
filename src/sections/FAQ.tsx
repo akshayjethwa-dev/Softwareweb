@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Plus, Minus } from 'lucide-react';
 import Section from '../components/Section';
@@ -7,9 +7,37 @@ import { cn } from '../lib/utils';
 import { FAQ as FAQType } from '../types';
 
 export default function FAQ({ faqs: customFaqs }: { faqs?: FAQType[] }) {
-  const allFaqs = getFAQs();
-  const faqs = customFaqs || allFaqs;
+  const [fetchedFaqs, setFetchedFaqs] = useState<FAQType[]>([]);
+  const [loading, setLoading] = useState(!customFaqs); // Only load if customFaqs is undefined
   const [openIndex, setOpenIndex] = useState<number | null>(0);
+
+  useEffect(() => {
+    // If FAQs are passed in as props, we don't need to fetch
+    if (customFaqs) return;
+
+    const fetchFaqs = async () => {
+      try {
+        const data = await getFAQs();
+        setFetchedFaqs(data);
+      } catch (error) {
+        console.error("Failed to fetch FAQs:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchFaqs();
+  }, [customFaqs]);
+
+  const faqs = customFaqs || fetchedFaqs;
+
+  if (loading) {
+    return (
+      <Section id="faq" className="flex items-center justify-center min-h-[30vh]">
+        <div className="animate-pulse text-brand-accent/50 font-bold text-xl tracking-widest uppercase">Loading FAQs...</div>
+      </Section>
+    );
+  }
 
   return (
     <Section id="faq">
@@ -40,7 +68,7 @@ export default function FAQ({ faqs: customFaqs }: { faqs?: FAQType[] }) {
 
         <div className="lg:col-span-8">
           <div className="space-y-4">
-            {faqs.map((faq, idx) => (
+            {faqs?.map((faq, idx) => (
               <motion.div 
                 key={idx}
                 initial={{ opacity: 0, y: 10 }}

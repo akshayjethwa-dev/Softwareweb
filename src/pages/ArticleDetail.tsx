@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { motion } from 'motion/react';
 import ReactMarkdown from 'react-markdown';
@@ -6,14 +7,44 @@ import { getArticleBySlug, getArticles } from '../content';
 import Section from '../components/Section';
 import SEO from '../components/SEO';
 import Breadcrumbs from '../components/Breadcrumbs';
-import LeadCaptureForm from '../components/LeadCaptureForm';
-import { ArrowLeft, ArrowRight, Clock, User, Calendar, Share2, Tag } from 'lucide-react';
+import { ArrowRight, Clock, Calendar, Share2, Tag } from 'lucide-react';
+import { Article } from '../types';
 
 export default function ArticleDetail() {
   const { slug } = useParams<{ slug: string }>();
-  const article = getArticleBySlug(slug || '');
-  const allArticles = getArticles();
   const navigate = useNavigate();
+
+  const [article, setArticle] = useState<Article | null>(null);
+  const [allArticles, setAllArticles] = useState<Article[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        const [articleData, articlesData] = await Promise.all([
+          getArticleBySlug(slug || ''),
+          getArticles()
+        ]);
+        setArticle(articleData);
+        setAllArticles(articlesData);
+      } catch (error) {
+        console.error("Error fetching article details:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [slug]);
+
+  if (loading) {
+    return (
+      <Section className="min-h-[60vh] flex items-center justify-center pt-40">
+        <div className="animate-pulse text-brand-primary font-bold text-xl tracking-widest uppercase">Loading Insight...</div>
+      </Section>
+    );
+  }
 
   if (!article) {
     return (
@@ -36,8 +67,8 @@ export default function ArticleDetail() {
   return (
     <>
       <SEO 
-        title={`${article.title} | Ashrey Systems`} 
-        description={article.summary}
+        title={article.metaTitle || `${article.title} | Ashrey Systems`} 
+        description={article.metaDescription || article.summary}
         type="article"
       />
       
@@ -62,7 +93,7 @@ export default function ArticleDetail() {
                   {article.category}
                 </div>
                 <div className="flex items-center gap-2 text-sm text-muted-foreground font-medium">
-                  <Calendar className="w-4 h-4" /> {article.date}
+                  <Calendar className="w-4 h-4" /> {article.date || new Date().toISOString().split('T')[0]}
                 </div>
                 <div className="flex items-center gap-2 text-sm text-muted-foreground font-medium">
                   <Clock className="w-4 h-4" /> {article.readTime}
@@ -74,7 +105,7 @@ export default function ArticleDetail() {
               </h1>
 
               <div className="flex items-center gap-4">
-                <div className="w-12 h-12 bg-muted rounded-full overflow-hidden flex-shrink-0">
+                <div className="w-12 h-12 bg-muted rounded-full overflow-hidden shrink-0">
                   <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=100" alt={article.author} />
                 </div>
                 <div>
@@ -89,8 +120,10 @@ export default function ArticleDetail() {
 
       <div className="container px-6 -mt-12 mb-20 relative z-10">
         <div className="max-w-5xl mx-auto">
-          <div className="aspect-[21/9] rounded-[3rem] overflow-hidden shadow-2xl">
-            <img src={article.imageUrl} alt={article.title} className="w-full h-full object-cover" />
+          <div className="aspect-21/9 rounded-[3rem] overflow-hidden shadow-2xl bg-muted">
+            {article.imageUrl && (
+              <img src={article.imageUrl} alt={article.title} className="w-full h-full object-cover" />
+            )}
           </div>
         </div>
       </div>
@@ -105,7 +138,7 @@ export default function ArticleDetail() {
 
               <div className="mt-16 pt-10 border-t border-border">
                 <div className="flex flex-wrap gap-2 mb-10">
-                  {article.tags.map(tag => (
+                  {article.tags?.map(tag => (
                     <span key={tag} className="px-4 py-2 bg-muted/50 rounded-xl text-sm font-bold flex items-center gap-2">
                        <Tag className="w-3 h-3 opacity-50" /> {tag}
                     </span>

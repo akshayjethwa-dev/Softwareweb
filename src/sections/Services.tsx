@@ -1,9 +1,11 @@
+import { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
 import { getServices } from '../content';
 import { CheckCircle2, Smartphone, Globe, Workflow, ShieldCheck, Zap, Code, MessageSquare, Target, Search, Cpu, ArrowRight } from 'lucide-react';
 import Section from '../components/Section';
 import { Link } from 'react-router-dom';
 import { trackEvent } from '../lib/analytics';
+import { Service } from '../types';
 
 const IconMap: Record<string, any> = {
   Smartphone,
@@ -19,11 +21,35 @@ const IconMap: Record<string, any> = {
 };
 
 export default function Services() {
-  const services = getServices();
+  const [services, setServices] = useState<Service[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchServices = async () => {
+      try {
+        const data = await getServices();
+        setServices(data);
+      } catch (error) {
+        console.error("Failed to fetch services:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchServices();
+  }, []);
 
   const handleServiceClick = (serviceName: string) => {
     trackEvent('consultation_cta_click', { service: serviceName, location: 'services_grid' });
   };
+
+  if (loading) {
+    return (
+      <Section id="services" className="bg-muted/40 flex items-center justify-center min-h-[50vh]">
+        <div className="animate-pulse text-brand-accent font-bold text-xl tracking-widest uppercase">Loading Services...</div>
+      </Section>
+    );
+  }
 
   return (
     <Section id="services" className="bg-muted/40 relative overflow-hidden">
@@ -67,9 +93,9 @@ export default function Services() {
               </p>
 
               <ul className="space-y-3 mb-10">
-                {service.keyOutcomes.map((outcome) => (
+                {service.keyOutcomes?.map((outcome) => (
                    <li key={outcome} className="flex items-center gap-3 text-sm font-medium">
-                    <CheckCircle2 className="w-4 h-4 text-green-500 flex-shrink-0" />
+                    <CheckCircle2 className="w-4 h-4 text-green-500 shrink-0" />
                     {outcome}
                   </li>
                 ))}

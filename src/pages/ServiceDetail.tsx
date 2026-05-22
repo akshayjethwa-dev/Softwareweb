@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { motion } from 'motion/react';
 import { getServiceById, getServices, getCaseStudies } from '../content';
@@ -8,12 +9,46 @@ import { ArrowRight, CheckCircle2, MessageCircle } from 'lucide-react';
 import Contact from '../sections/Contact';
 import FAQ from '../sections/FAQ';
 import WhatsAppCTA from '../components/WhatsAppCTA';
+import { Service, CaseStudy } from '../types';
 
 export default function ServiceDetail() {
   const { slug } = useParams<{ slug: string }>();
-  const service = getServiceById(slug || '');
-  const allServices = getServices();
-  const allProjects = getCaseStudies();
+  
+  const [service, setService] = useState<Service | null>(null);
+  const [allServices, setAllServices] = useState<Service[]>([]);
+  const [allProjects, setAllProjects] = useState<CaseStudy[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        const [serviceData, servicesData, projectsData] = await Promise.all([
+          getServiceById(slug || ''),
+          getServices(),
+          getCaseStudies()
+        ]);
+        
+        setService(serviceData);
+        setAllServices(servicesData);
+        setAllProjects(projectsData);
+      } catch (error) {
+        console.error("Error fetching detail data:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [slug]);
+
+  if (loading) {
+    return (
+      <Section className="min-h-[60vh] flex items-center justify-center bg-muted/20">
+        <div className="animate-pulse text-brand-accent font-bold text-xl tracking-widest uppercase">Loading Details...</div>
+      </Section>
+    );
+  }
 
   if (!service) {
     return (
@@ -74,9 +109,8 @@ export default function ServiceDetail() {
             className="relative"
           >
             <div className="aspect-square bg-brand-primary/5 rounded-[4rem] flex items-center justify-center relative overflow-hidden group">
-              <div className="absolute inset-0 bg-gradient-to-br from-brand-primary/10 to-transparent" />
+              <div className="absolute inset-0 bg-linear-to-br from-brand-primary/10 to-transparent" />
               <div className="w-32 h-32 bg-background rounded-3xl shadow-2xl flex items-center justify-center transform group-hover:rotate-12 transition-transform duration-500">
-                {/* Dynamically render Lucide icon if possible, or just the title for now */}
                 <span className="text-4xl font-bold text-brand-primary">{service.title.charAt(0)}</span>
               </div>
             </div>
@@ -95,7 +129,7 @@ export default function ServiceDetail() {
             { title: 'Scalable Architecture', description: 'Built to handle growth from 10 to 10k+ users without breaking a sweat.' },
             { title: 'Security First', description: 'Enterprise-grade security protocols baked into every line of code.' },
             { title: 'Performance Optimized', description: 'Sub-second load times and efficient resource management.' }
-          ]).map((feature, idx) => (
+          ]).map((feature: any, idx: number) => (
             <motion.div
               key={feature.title}
               initial={{ opacity: 0, y: 20 }}
@@ -121,7 +155,7 @@ export default function ServiceDetail() {
           <div>
             <h2 className="text-3xl md:text-5xl font-bold mb-8 italic">The Ashrey Edge.</h2>
             <div className="space-y-6">
-              {service.keyOutcomes.map((outcome, idx) => (
+              {service.keyOutcomes?.map((outcome, idx) => (
                 <motion.div 
                   key={idx}
                   initial={{ opacity: 0, x: -20 }}
@@ -167,13 +201,13 @@ export default function ServiceDetail() {
           </Link>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {allProjects.filter(p => p.servicesUsed.includes(service.title)).map(project => (
+          {allProjects.filter(p => p.servicesUsed?.includes(service.title)).map(project => (
             <Link 
               key={project.id}
               to={`/case-studies/${project.id}`}
               className="group block p-8 bg-muted/20 border border-border rounded-3xl hover:border-brand-primary transition-all"
             >
-              <div className="aspect-[16/9] rounded-2xl overflow-hidden mb-6">
+              <div className="aspect-video rounded-2xl overflow-hidden mb-6">
                 <img src={project.imageUrl} alt={project.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
               </div>
               <h3 className="text-xl font-bold mb-2">{project.clientName}</h3>

@@ -1,17 +1,34 @@
 import { motion, AnimatePresence } from 'motion/react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { getCaseStudies } from '../content';
 import { ArrowUpRight, Plus, Minus, CheckCircle2, AlertCircle, Lightbulb, ArrowRight } from 'lucide-react';
 import { cn } from '../lib/utils';
 import Section from '../components/Section';
 import { trackEvent } from '../lib/analytics';
 import { Link } from 'react-router-dom';
+import { CaseStudy } from '../types';
 
 export default function CaseStudies() {
-  const caseStudies = getCaseStudies();
+  const [caseStudies, setCaseStudies] = useState<CaseStudy[]>([]);
   const [expandedId, setExpandedId] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
 
-  const handleExpand = (project: any) => {
+  useEffect(() => {
+    const fetchCaseStudies = async () => {
+      try {
+        const data = await getCaseStudies();
+        setCaseStudies(data);
+      } catch (error) {
+        console.error("Failed to fetch case studies:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCaseStudies();
+  }, []);
+
+  const handleExpand = (project: CaseStudy) => {
     const nextId = expandedId === project.id ? null : project.id;
     setExpandedId(nextId);
     if (nextId) {
@@ -21,6 +38,14 @@ export default function CaseStudies() {
       });
     }
   };
+
+  if (loading) {
+    return (
+      <Section id="case-studies" className="bg-brand-primary text-white flex items-center justify-center min-h-[50vh]">
+        <div className="animate-pulse text-brand-accent font-bold text-xl tracking-widest uppercase">Loading Work...</div>
+      </Section>
+    );
+  }
 
   return (
     <Section id="case-studies" className="bg-brand-primary text-white overflow-hidden">
@@ -54,7 +79,7 @@ export default function CaseStudies() {
               transition={{ delay: idx * 0.1 }}
               className={cn(
                 "group relative bg-white/5 border border-white/10 rounded-[2.5rem] overflow-hidden transition-all duration-500",
-                isExpanded ? "ring-2 ring-brand-accent/50 bg-white/[0.08]" : "hover:bg-white/[0.07]"
+                isExpanded ? "ring-2 ring-brand-accent/50 bg-white/8" : "hover:bg-white/[0.07]"
               )}
             >
               <div 
@@ -62,7 +87,7 @@ export default function CaseStudies() {
                 onClick={() => handleExpand(project)}
               >
                 {/* Thumbnail */}
-                <div className="relative w-full md:w-72 aspect-[4/3] rounded-3xl overflow-hidden shrink-0">
+                <div className="relative w-full md:w-72 aspect-4/3 rounded-3xl overflow-hidden shrink-0">
                   <img 
                     src={project.imageUrl} 
                     alt={project.title}
@@ -77,7 +102,7 @@ export default function CaseStudies() {
                 </div>
 
                 {/* Summary */}
-                <div className="flex-grow">
+                <div className="grow">
                   <div className="flex items-center justify-between mb-4">
                     <div className="flex flex-wrap gap-2">
                       <span className="px-3 py-1 bg-brand-accent/10 text-brand-accent text-[10px] font-black uppercase tracking-widest rounded-full border border-brand-accent/20">
@@ -109,7 +134,7 @@ export default function CaseStudies() {
                       )}
                     </div>
                     <div className="flex flex-wrap gap-2">
-                      {project.techStack.slice(0, 3).map(tech => (
+                      {project.techStack?.slice(0, 3).map((tech: string) => (
                         <span key={tech} className="px-3 py-1 bg-white/5 text-white/40 text-[10px] font-bold uppercase tracking-widest rounded-full">
                           {tech}
                         </span>
@@ -159,7 +184,7 @@ export default function CaseStudies() {
                           <h4 className="text-xs font-black uppercase tracking-widest">Business Impact</h4>
                         </div>
                         <ul className="space-y-3">
-                          {project.impact.map((item, idx) => (
+                          {project.impact?.map((item: string, idx: number) => (
                             <li key={idx} className="flex gap-2 text-sm text-white/70 italic">
                               <span className="text-green-400">•</span>
                               {item}
