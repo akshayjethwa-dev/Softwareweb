@@ -1,11 +1,32 @@
+import { useState, useEffect } from 'react';
 import { getSiteConfig, getNavItems, getServices } from '../content';
+import { services as fallbackServices } from '../content/services';
+import { Service } from '../types';
 import { Github, Twitter, Linkedin, ExternalLink, Layout as LayoutIcon } from 'lucide-react';
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
   const config = getSiteConfig();
   const navItems = getNavItems();
-  const services = getServices();
+  
+  // 1. Set initial state to fallback data so the footer renders instantly
+  const [services, setServices] = useState<Service[]>(fallbackServices);
+
+  // 2. Fetch fresh data from Sanity in the background
+  useEffect(() => {
+    const fetchFooterServices = async () => {
+      try {
+        const data = await getServices();
+        if (data && data.length > 0) {
+          setServices(data);
+        }
+      } catch (error) {
+        console.error("Failed to fetch services for footer:", error);
+      }
+    };
+
+    fetchFooterServices();
+  }, []);
 
   return (
     <footer className="bg-background py-24 px-6 border-t border-border">
@@ -42,6 +63,7 @@ export default function Footer() {
           <div>
             <h4 className="font-bold mb-6 text-sm uppercase tracking-wider">Services</h4>
             <ul className="space-y-4 text-sm text-muted-foreground">
+              {/* Because 'services' is now a valid array from React state, slice() works perfectly */}
               {services.slice(0, 4).map(service => (
                 <li key={service.id}><a href={`#services`} className="hover:text-brand-primary transition-colors">{service.title}</a></li>
               ))}

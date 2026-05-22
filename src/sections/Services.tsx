@@ -1,5 +1,7 @@
+import { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
 import { getServices } from '../content';
+import { services as fallbackServices } from '../content/services';
 import { Service } from '../types';
 import { CheckCircle2, AlertCircle, ArrowRight, Lightbulb, Users, Workflow, MessageSquare, Cpu } from 'lucide-react';
 import Section from '../components/Section';
@@ -14,8 +16,24 @@ const IconMap: Record<string, any> = {
 };
 
 export default function Services() {
-  // Fix: Cast to unknown first to bypass the strict Promise mismatch error
-  const services = (getServices() as unknown) as Service[];
+  // 1. Set initial state to your static fallback data so the page loads instantly
+  const [services, setServices] = useState<Service[]>(fallbackServices);
+
+  // 2. Fetch fresh data from Sanity in the background
+  useEffect(() => {
+    const fetchServicesData = async () => {
+      try {
+        const data = await getServices();
+        if (data && data.length > 0) {
+          setServices(data);
+        }
+      } catch (error) {
+        console.error("Failed to fetch services from Sanity:", error);
+      }
+    };
+
+    fetchServicesData();
+  }, []);
 
   const handleServiceClick = (serviceName: string) => {
     trackEvent('consultation_cta_click', { service: serviceName, location: 'services_grid' });

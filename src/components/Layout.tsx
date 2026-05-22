@@ -32,7 +32,7 @@ export default function Layout({ children }: LayoutProps) {
     <ModalContext.Provider value={{ openModal }}>
       <div className="flex flex-col min-h-screen selection:bg-brand-accent selection:text-white">
         <Header />
-        <main className="flex-grow pt-20">
+        <main className="grow pt-20">
           {children}
         </main>
         <Footer />

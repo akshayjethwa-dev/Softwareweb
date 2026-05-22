@@ -97,7 +97,7 @@ export default function Header() {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: '100%' }}
             transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-            className="fixed inset-0 top-0 left-0 w-full h-screen bg-background z-[60] flex flex-col p-8 lg:hidden"
+            className="fixed inset-0 top-0 left-0 w-full h-screen bg-background z-60 flex flex-col p-8 lg:hidden"
           >
             <div className="flex justify-between items-center mb-12">
               <Logo />

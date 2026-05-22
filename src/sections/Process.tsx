@@ -36,7 +36,7 @@ export default function Process() {
             >
               {/* Connector Line */}
               {idx !== process.length - 1 && (
-                <div className="absolute left-[39px] top-20 bottom-[-48px] w-0.5 bg-border group-hover:bg-brand-accent transition-colors duration-500" />
+                <div className="absolute left-9.75 top-20 -bottom-12 w-0.5 bg-border group-hover:bg-brand-accent transition-colors duration-500" />
               )}
               
               {/* Step Circle */}

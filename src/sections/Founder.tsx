@@ -16,13 +16,13 @@ export default function Founder() {
           viewport={{ once: true }}
           className="relative"
         >
-          <div className="aspect-[4/5] bg-muted/50 rounded-[3rem] overflow-hidden relative group">
+          <div className="aspect-4/5 bg-muted/50 rounded-[3rem] overflow-hidden relative group">
             <img 
               src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=800" 
               alt="Founder"
               className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-brand-primary/60 via-transparent to-transparent opacity-60" />
+            <div className="absolute inset-0 bg-linear-to-t from-brand-primary/60 via-transparent to-transparent opacity-60" />
             
             <div className="absolute bottom-8 left-8 right-8 p-8 bg-white/10 backdrop-blur-xl border border-white/20 rounded-[2rem]">
               <div className="text-white">

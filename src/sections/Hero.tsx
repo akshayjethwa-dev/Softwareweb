@@ -4,12 +4,12 @@ import { ArrowRight, MessageCircle, CheckCircle, Smartphone, Layout as LayoutIco
 import { useLeadModal } from '../components/Layout';
 import WhatsAppCTA from '../components/WhatsAppCTA';
 import { BUSINESS_CONFIG } from '../data/config';
-import { getSiteConfig } from '../content';
+import { useSanityConfig } from '../hooks/useSanityConfig';
 import { trackEvent } from '../lib/analytics';
 
 export default function Hero() {
   const { openModal } = useLeadModal();
-  const config = getSiteConfig();
+  const { config, loading } = useSanityConfig();
 
   const handleCTAClick = () => {
     trackEvent('consultation_cta_click', { location: 'hero' });
@@ -33,8 +33,8 @@ export default function Hero() {
       className="relative min-h-screen flex flex-col justify-center pt-32 pb-16 px-6 overflow-hidden"
     >
       {/* Background Decorative Elements */}
-      <div className="absolute top-0 right-0 -translate-y-1/4 translate-x-1/4 w-[600px] h-[600px] bg-brand-accent/5 rounded-full blur-3xl -z-10" />
-      <div className="absolute bottom-0 left-0 translate-y-1/4 -translate-x-1/4 w-[400px] h-[400px] bg-brand-primary/5 rounded-full blur-3xl -z-10" />
+      <div className="absolute top-0 right-0 -translate-y-1/4 translate-x-1/4 w-150 h-150 bg-brand-accent/5 rounded-full blur-3xl -z-10" />
+      <div className="absolute bottom-0 left-0 translate-y-1/4 -translate-x-1/4 w-100 h-100 bg-brand-primary/5 rounded-full blur-3xl -z-10" />
 
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
         {/* Text Content */}
@@ -71,7 +71,7 @@ export default function Hero() {
               variant="outline" 
               label="Audit My Setup"
               message={BUSINESS_CONFIG.defaultMessages.whatsappAudit}
-              className="px-8 py-4 !border-border !text-foreground hover:!bg-muted"
+              className="px-8 py-4 border-border! text-foreground! hover:bg-muted!"
             />
           </div>
 

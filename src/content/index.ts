@@ -1,5 +1,5 @@
 import { sanityClient } from '../lib/sanityClient';
-
+import { fetchSiteConfig } from '../lib/queries';
 // --- ASYNC FETCH FUNCTIONS ---
 
 export const getServices = async () => {
@@ -71,6 +71,17 @@ import { siteConfig } from './siteConfig';
 import { process } from './process';
 import { industries } from './industries';
 import { navItems } from './navigation';
+
+// getSiteConfigAsync now tries Sanity first, falls back to static
+export async function getSiteConfigAsync() {
+  try {
+    const data = await fetchSiteConfig();
+    return data ?? siteConfig;
+  } catch (error) {
+    console.error("Failed to fetch Site Config from Sanity, using fallback:", error);
+    return siteConfig; // fallback if Sanity is unreachable
+  }
+}
 
 export const getSiteConfig = () => siteConfig;
 export const getProcess = () => process;
