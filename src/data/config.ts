@@ -1,11 +1,17 @@
 export const BUSINESS_CONFIG = {
-  name: 'Ashrey Systems',
+  name: 'Ashrey Systems', // Update this to your actual brand name if different
   tagline: 'Engineering the next generation of digital excellence.',
-  description: 'A premium software development studio in Gujarat, India, specializing in custom apps, WhatsApp automation, and local SEO for SMEs.',
+  description: 'A premium software development organization in Anand, Gujarat, specializing in B2B SaaS, Website and App creation, MSME workforce management, and WhatsApp automation.',
   url: 'https://ashrey.systems', // Replace with real URL
-  whatsappNumber: '919876543210',
+  whatsappNumber: '918460852903', // Replace with your real number
   email: 'hello@ashrey.systems',
   logo: 'https://ashrey.systems/logo.png',
+  
+  // Added Founder Details for centralization
+  founderName: 'Akshay Jethwa', // Update to full name if desired
+  founderRole: 'Managing Director',
+  founderImage: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=800', // Replace with your actual photo URL
+  
   address: {
     street: '102 Business Hub, Station Road',
     city: 'Anand',
@@ -14,7 +20,7 @@ export const BUSINESS_CONFIG = {
     country: 'India'
   },
   geo: {
-    latitude: 22.5645,
+    latitude: 22.5645, // Update if needed
     longitude: 72.9289
   },
   socials: {

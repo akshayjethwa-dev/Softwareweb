@@ -1,4 +1,4 @@
-import { Menu, X, ArrowRight, MessageCircle, Layout as LayoutIcon } from 'lucide-react';
+import { Menu, X, ArrowRight, Layout as LayoutIcon } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { cn } from '../lib/utils';
@@ -26,14 +26,23 @@ export default function Header() {
     openModal();
   };
 
-  const Logo = () => (
-    <div className="flex items-center gap-3">
-      <div className="w-10 h-10 bg-brand-primary rounded-xl flex items-center justify-center transform hover:rotate-12 transition-transform">
-        <LayoutIcon className="w-5 h-5 text-white" />
+  const Logo = () => {
+    const nameParts = BUSINESS_CONFIG.name.split(' ');
+    const firstName = nameParts[0];
+    const restName = nameParts.length > 1 ? nameParts.slice(1).join(' ') : '';
+
+    return (
+      <div className="flex items-center gap-3">
+        <div className="w-10 h-10 bg-brand-primary rounded-xl flex items-center justify-center transform hover:rotate-12 transition-transform">
+          <LayoutIcon className="w-5 h-5 text-white" />
+        </div>
+        <span className="text-xl font-black tracking-tighter text-brand-primary">
+          {firstName}
+          {restName && <span className="text-brand-accent"> {restName}.</span>}
+        </span>
       </div>
-      <span className="text-xl font-black tracking-tighter text-brand-primary">Ashrey<span className="text-brand-accent"> Systems.</span></span>
-    </div>
-  );
+    );
+  };
 
   return (
     <header 

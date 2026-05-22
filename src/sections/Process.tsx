@@ -1,10 +1,18 @@
+import { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
-import { getProcess } from '../content';
+import { getProcessAsync } from '../content';
 import { Check } from 'lucide-react';
 import Section from '../components/Section';
 
 export default function Process() {
-  const process = getProcess();
+  const [process, setProcess] = useState<any[]>([]);
+
+  useEffect(() => {
+    getProcessAsync().then(setProcess);
+  }, []);
+
+  if (!process.length) return null;
+
   return (
     <Section id="process" className="bg-muted/40 relative overflow-hidden">
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-24">
@@ -27,19 +35,17 @@ export default function Process() {
         <div className="space-y-12">
           {process.map((step, idx) => (
             <motion.div 
-              key={step.id}
+              key={step.id || idx}
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ delay: idx * 0.1 }}
               className="group relative pl-20"
             >
-              {/* Connector Line */}
               {idx !== process.length - 1 && (
                 <div className="absolute left-9.75 top-20 -bottom-12 w-0.5 bg-border group-hover:bg-brand-accent transition-colors duration-500" />
               )}
               
-              {/* Step Circle */}
               <div className="absolute left-0 top-0 w-20 h-20 rounded-full bg-background border-2 border-border flex items-center justify-center text-2xl font-black text-muted-foreground group-hover:border-brand-accent group-hover:text-brand-primary transition-all duration-500 shadow-xl shadow-transparent group-hover:shadow-brand-accent/5">
                 {(idx + 1).toString().padStart(2, '0')}
               </div>
@@ -52,7 +58,7 @@ export default function Process() {
                   {step.description}
                 </p>
                 <div className="flex flex-wrap gap-2">
-                  {step.details.map(detail => (
+                  {step.details?.map((detail: string) => (
                     <span key={detail} className="px-4 py-1.5 bg-background border border-border rounded-xl text-xs font-bold uppercase tracking-wider">
                       {detail}
                     </span>
@@ -63,7 +69,6 @@ export default function Process() {
           ))}
         </div>
 
-        {/* Visual Side Block */}
         <div className="relative hidden lg:block">
           <div className="sticky top-32 bg-brand-primary rounded-[3rem] p-12 text-white overflow-hidden shadow-2xl shadow-brand-primary/20">
             <div className="absolute -top-24 -right-24 w-64 h-64 bg-brand-accent/10 rounded-full blur-3xl" />

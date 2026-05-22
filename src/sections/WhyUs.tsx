@@ -1,34 +1,32 @@
+import { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
+import { getWhyUsAsync } from '../content';
 import { Target, Zap, ShieldCheck, Users, Code2, Rocket } from 'lucide-react';
 import Section from '../components/Section';
 
+// Map icon strings from CMS to actual icon components
+const IconMap: Record<string, any> = {
+  Target, Zap, ShieldCheck, Users, Code2, Rocket
+};
+
+const defaultValues = [
+  { title: 'Fast Iteration', desc: 'Weekly staging updates and bi-weekly release cycles.', icon: 'Zap' },
+  { title: 'SME Focus', desc: 'Built specifically for the operational needs of mid-sized firms.', icon: 'Target' },
+  { title: 'Founder-Led Delivery', desc: 'You work directly with architectural leads, no junior handoffs.', icon: 'Users' },
+  { title: 'Modern Tech Stack', desc: 'Resilient, type-safe infrastructure that scales effortlessly.', icon: 'Code2' }
+];
+
 export default function WhyUs() {
-  const values = [
-    {
-      title: 'Fast Iteration',
-      desc: 'Weekly staging updates and bi-weekly release cycles.',
-      icon: Zap
-    },
-    {
-      title: 'SME Focus',
-      desc: 'Built specifically for the operational needs of mid-sized firms.',
-      icon: Target
-    },
-    {
-      title: 'Founder-Led Delivery',
-      desc: 'You work directly with architectural leads, no junior handoffs.',
-      icon: Users
-    },
-    {
-      title: 'Modern Tech Stack',
-      desc: 'Resilient, type-safe infrastructure that scales effortlessly.',
-      icon: Code2
-    }
-  ];
+  const [values, setValues] = useState<any[]>(defaultValues);
+
+  useEffect(() => {
+    getWhyUsAsync().then(data => {
+      if (data) setValues(data);
+    });
+  }, []);
 
   return (
     <Section id="why-us" className="bg-brand-primary text-white overflow-hidden relative">
-      {/* Decorative patterns */}
       <div className="absolute top-0 right-0 w-1/3 h-full bg-brand-accent/5 skew-x-12 translate-x-1/2" />
       <div className="absolute bottom-0 left-0 w-1/3 h-full bg-brand-accent/5 -skew-x-12 -translate-x-1/2" />
 
@@ -48,24 +46,27 @@ export default function WhyUs() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {values.map((value, idx) => (
-            <motion.div
-              key={value.title}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: idx * 0.1 }}
-              className="p-8 bg-white/5 rounded-[2rem] border border-white/10 hover:border-brand-accent/50 transition-all group"
-            >
-              <div className="w-14 h-14 bg-brand-accent/10 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-brand-accent transition-colors duration-500">
-                <value.icon className="w-7 h-7 text-brand-accent group-hover:text-brand-primary" />
-              </div>
-              <h3 className="text-xl font-bold mb-3">{value.title}</h3>
-              <p className="text-sm text-white/40 leading-relaxed font-medium capitalize">
-                {value.desc}
-              </p>
-            </motion.div>
-          ))}
+          {values.map((value, idx) => {
+            const IconComponent = IconMap[value.icon] || Zap; // Default to Zap if missing
+            return (
+              <motion.div
+                key={value.title}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: idx * 0.1 }}
+                className="p-8 bg-white/5 rounded-[2rem] border border-white/10 hover:border-brand-accent/50 transition-all group"
+              >
+                <div className="w-14 h-14 bg-brand-accent/10 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-brand-accent transition-colors duration-500">
+                  <IconComponent className="w-7 h-7 text-brand-accent group-hover:text-brand-primary" />
+                </div>
+                <h3 className="text-xl font-bold mb-3">{value.title}</h3>
+                <p className="text-sm text-white/40 leading-relaxed font-medium capitalize">
+                  {value.desc}
+                </p>
+              </motion.div>
+            );
+          })}
         </div>
 
         <div className="mt-24 pt-12 border-t border-white/10 flex flex-wrap justify-center gap-12 md:gap-24 opacity-40">
