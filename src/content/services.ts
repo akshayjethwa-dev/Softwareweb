@@ -2,74 +2,72 @@ import { Service } from '../types';
 
 export const services: Service[] = [
   {
-    id: 'custom-apps',
-    title: 'Custom Web & Mobile Apps',
-    benefit: 'Own your platform, don\'t rent it.',
-    description: 'Bespoke software solutions tailored to your unique business logic and growth trajectory.',
-    icon: 'Smartphone',
-    keyOutcomes: ['Cloud-Native Architecture', 'Seamless UX', 'Enterprise-Grade Security'],
-    typicalClients: 'SMEs looking for proprietary workflows.',
-    metaTitle: 'Custom Software & Mobile App Development | Ashrey Systems',
-    metaDescription: 'We build scalable web and mobile applications tailored to Gujarat\'s growing SMEs. Engineering excellence for your unique business logic.',
-    fullDescription: 'In a world of template solutions, custom software is your competitive advantage. We architect applications that don\'t just "work" but solve specific operational bottlenecks. Whether it\'s a custom CRM for your medical clinic or a proprietary inventory system for your factory, we build with scale and security at the core.',
-    features: [
-      { title: 'Full-Stack Excellence', description: 'React, Node.js, and Cloud-native architectures ensuring sub-second response times.' },
-      { title: 'Mobile-First Design', description: 'Native-feel experiences for Android and iOS that keep users engaged.' },
-      { title: 'API Integration', description: 'Connecting your existing tools (ERP, Accounting, CRM) into a single source of truth.' }
+    id: 'workforce-tracking',
+    title: 'Site Attendance & Workforce Tracking',
+    icon: 'Users',
+    problem: 'Proxy attendance, manual register books, and spending days calculating month-end payroll for blue-collar staff or field workers.',
+    solution: 'A custom, mobile-friendly portal featuring face-scan attendance and geolocation tagging, feeding directly into an automated payroll calculator.',
+    outcomes: [
+      'Eliminate proxy attendance completely',
+      'Reduce payroll processing from days to hours',
+      'Real-time visibility of staff across multiple sites'
     ],
-    faqs: [
-      { question: 'How long does a typical build take?', answer: 'An MVP usually takes 8-12 weeks, depending on complexity. We follow an agile process with bi-weekly updates.' },
-      { question: 'Who owns the source code?', answer: 'You do. Upon full payment, the IP and source code are transferred to your business.' }
-    ]
+    bestFor: 'MSME Contractors, Builders, and Factory Owners in Gujarat.',
+    // Fallback fields for backwards compatibility
+    benefit: 'Know exactly who is on site, instantly.',
+    description: 'Track attendance and automate payroll for your distributed workforce.',
+    keyOutcomes: ['Face-scan attendance', 'Geolocation tracking', 'Automated payroll reporting'],
+    typicalClients: 'MSME Contractors, Builders, and Factory Owners in Gujarat.'
+  },
+  {
+    id: 'b2b-portals',
+    title: 'B2B Dealer & Procurement Portals',
+    icon: 'Workflow',
+    problem: 'Managing distributor orders through scattered WhatsApp messages, leading to missed orders, inventory confusion, and delayed collections.',
+    solution: 'A centralized B2B ordering platform where your dealers can log in, view live stock, place orders, and track their ledger balances.',
+    outcomes: [
+      'Zero lost orders from WhatsApp chaos',
+      'Automated invoice generation and ledger sync',
+      'Faster order-to-cash cycles'
+    ],
+    bestFor: 'Chemical manufacturers in Vatva, ceramic traders in Morbi, and industrial distributors.',
+    benefit: 'Centralize your B2B sales channels.',
+    description: 'Stop taking orders on WhatsApp. Give your dealers a professional portal.',
+    keyOutcomes: ['Live inventory sync', 'Ledger management', 'Automated order tracking'],
+    typicalClients: 'Chemical manufacturers and industrial distributors.'
   },
   {
     id: 'whatsapp-automation',
-    title: 'WhatsApp API & Automation',
-    benefit: 'Connect where your customers live.',
-    description: 'Streamline customer engagement with intelligent, scale-ready WhatsApp business workflows.',
+    title: 'WhatsApp-First Lead & Support Bots',
     icon: 'MessageSquare',
-    keyOutcomes: ['Automated Lead Qualification', '24/7 Customer Support', 'Instant Notifications'],
-    typicalClients: 'Retailers and service providers.',
-    metaTitle: 'WhatsApp Business API & Chatbot Automation | Ashrey Systems',
-    metaDescription: 'Automate your customer service and lead qualification with Official WhatsApp API. 24/7 engagement for your business in Gujarat.',
-    fullDescription: 'Email is ignored. SMS is spam. But WhatsApp is where your customers are. Our WhatsApp automation services help you leverage the Official Business API to send automated notifications, qualify leads with AI chatbots, and handle customer support at scale without increasing your team size.',
-    features: [
-      { title: 'Official API Setup', description: 'Leave the documentation to us. We handle the Meta verification and API provisioning.' },
-      { title: 'Lead Qualifiers', description: 'Automated chatbots that ask the right questions before a human ever steps in.' },
-      { title: 'Bulk Notifications', description: 'Send order updates, appointment reminders, and promotional alerts legally and safely.' }
-    ]
+    problem: 'Losing high-intent leads because your team cannot reply to inquiries instantly 24/7, or getting bogged down by repetitive customer questions.',
+    solution: 'Official WhatsApp Business API integration with an intelligent bot that captures lead details, qualifies them, and handles basic support 24/7.',
+    outcomes: [
+      'Capture and qualify leads while you sleep',
+      'Reduce manual WhatsApp follow-ups by 50%',
+      'Seamless handover to human agents when needed'
+    ],
+    bestFor: 'Local clinics in Anand/Vadodara, real estate brokers, and retail showrooms.',
+    benefit: 'Never miss a lead again.',
+    description: 'Automate your customer service and lead qualification.',
+    keyOutcomes: ['24/7 Lead capture', 'Automated FAQs', 'CRM integration'],
+    typicalClients: 'Local clinics, real estate brokers, and retail showrooms.'
   },
   {
-    id: 'lead-gen-funnels',
-    title: 'Lead Generation Funnels',
-    benefit: 'High-intent traffic, higher conversion.',
-    description: 'High-performing, SEO-friendly landing pages designed to capture and convert more leads.',
-    icon: 'Zap',
-    keyOutcomes: ['Psychology-Driven UX', 'Fast Loading Times', 'A/B Tested Layouts'],
-    typicalClients: 'Real Estate and Education consultancies.',
-    metaTitle: 'Lead Generation Funnels & Landing Page Optimization | Ashrey Systems',
-    metaDescription: 'High-conversion funnels designed for real estate and education firms in Gujarat. Maximize your ad spend with engineering-led design.',
-    fullDescription: 'Traffic without conversion is just an expense. We build "Engineering-Led Funnels"—landing pages that load in under 1 second and use behavioral psychology to guide visitors toward a conversion. Perfect for businesses in high-competition industries like Real Estate and Coaching.'
-  },
-  {
-    id: 'local-seo',
-    title: 'Local SEO & Performance',
-    benefit: 'Be found first in your region.',
-    description: 'Dominating search results to connect your business with high-intent local customers.',
-    icon: 'Globe',
-    keyOutcomes: ['GMB Optimization', 'Technical Performance', 'Local Content Strategy'],
-    typicalClients: 'Gujarat-based medical clinics and salons.',
-    metaTitle: 'Local SEO & Technical Website Optimization Gujarat | Ashrey Systems',
-    metaDescription: 'Dominate Google search results in your city. Specialized Local SEO for doctors, clinics, and SMEs in Anand and Vadodara.',
-    fullDescription: 'If a customer searches for your service "near me" and you aren\'t in the Top 3, you\'re losing money. Our Local SEO strategy goes beyond just keywords; we optimize your technical core web vitals, manage your Google Business Profile, and build a local citation network that makes you the authority in your region.'
-  },
-  {
-    id: 'maintenance',
-    title: 'Maintenance & Support',
-    benefit: 'Zero downtime, total peace of mind.',
-    description: 'Dedicated support systems to keep your digital infrastructure resilient and performing.',
-    icon: 'ShieldCheck',
-    keyOutcomes: ['Security Patching', 'Cloud Monitoring', 'Priority Updates'],
-    typicalClients: 'Long-term partners wanting growth stability.'
-  },
+    id: 'owner-dashboards',
+    title: 'Custom Dashboards for Owners',
+    icon: 'Cpu',
+    problem: 'Waiting for your accountant to send Excel reports at the end of the month to know your cash flow, pending collections, or project status.',
+    solution: 'A secure, real-time dashboard pulling data from your existing tools to give you a bird\'s-eye view of your business health on your phone.',
+    outcomes: [
+      'Instant visibility into daily collections and expenses',
+      'Track project profitability in real-time',
+      'Make data-driven decisions without waiting for reports'
+    ],
+    bestFor: 'SME Founders and Managing Directors managing multiple business verticals.',
+    benefit: 'Your business health at a glance.',
+    description: 'Custom dashboards for real-time operational oversight.',
+    keyOutcomes: ['Live cash flow tracking', 'Project health metrics', 'Mobile-friendly oversight'],
+    typicalClients: 'SME Founders and Managing Directors.'
+  }
 ];

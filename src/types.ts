@@ -1,12 +1,16 @@
 export interface Service {
   id: string;
   title: string;
-  benefit: string;
-  description: string;
+  problem: string;
+  solution: string;
+  outcomes: string[];
+  bestFor: string;
   icon: string;
-  keyOutcomes: string[];
-  typicalClients: string;
-  // SEO & Detail Page fields
+  // Keeping older fields optional for backwards compatibility with other pages
+  benefit?: string;
+  description?: string;
+  keyOutcomes?: string[];
+  typicalClients?: string;
   metaTitle?: string;
   metaDescription?: string;
   fullDescription?: string;
