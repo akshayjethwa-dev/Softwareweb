@@ -1,11 +1,17 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
 import { getTestimonials } from '../content';
-import { Quote } from 'lucide-react';
+import { Quote, ArrowRight } from 'lucide-react';
 import Section from '../components/Section';
 import { Testimonial } from '../types';
+import { Link } from 'react-router-dom';
 
-export default function Testimonials() {
+interface TestimonialsProps {
+  limit?: number;
+  showViewAll?: boolean;
+}
+
+export default function Testimonials({ limit, showViewAll = false }: TestimonialsProps) {
   const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -32,6 +38,8 @@ export default function Testimonials() {
     );
   }
 
+  const displayedTestimonials = limit ? testimonials.slice(0, limit) : testimonials;
+
   return (
     <Section id="testimonials" className="bg-muted/20">
       <div className="text-center mb-20 max-w-3xl mx-auto">
@@ -49,7 +57,7 @@ export default function Testimonials() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {testimonials.map((t, idx) => (
+        {displayedTestimonials.map((t, idx) => (
           <motion.div 
             key={t.id}
             initial={{ opacity: 0, scale: 0.95 }}
@@ -65,7 +73,6 @@ export default function Testimonials() {
             </p>
 
             <div className="flex items-center gap-4 mt-auto">
-              {/* Fallback to initials if avatar isn't uploaded in Sanity */}
               {t.avatar ? (
                 <div className="w-12 h-12 rounded-2xl overflow-hidden shrink-0">
                   <img src={t.avatar} alt={t.name} className="w-full h-full object-cover" />
@@ -86,6 +93,19 @@ export default function Testimonials() {
           </motion.div>
         ))}
       </div>
+
+      {showViewAll && (
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="mt-16 text-center"
+        >
+          <Link to="/contact" className="inline-flex items-center gap-2 text-sm font-bold text-white bg-brand-primary px-8 py-4 rounded-xl hover:bg-brand-accent transition-colors shadow-lg">
+            Work With Us <ArrowRight className="w-4 h-4" />
+          </Link>
+        </motion.div>
+      )}
     </Section>
   );
 }

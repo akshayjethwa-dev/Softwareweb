@@ -8,7 +8,12 @@ import { trackEvent } from '../lib/analytics';
 import { Link } from 'react-router-dom';
 import { CaseStudy } from '../types';
 
-export default function CaseStudies() {
+interface CaseStudiesProps {
+  limit?: number;
+  showViewAll?: boolean;
+}
+
+export default function CaseStudies({ limit, showViewAll = false }: CaseStudiesProps) {
   const [caseStudies, setCaseStudies] = useState<CaseStudy[]>([]);
   const [expandedId, setExpandedId] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
@@ -48,10 +53,12 @@ export default function CaseStudies() {
     );
   }
 
-  // Graceful "No Data" state if Sanity is empty or network fails
   if (!caseStudies || caseStudies.length === 0) {
-    return null; // Gracefully hide section if no data is found
+    return null; 
   }
+
+  // Apply limit
+  const displayedStudies = limit ? caseStudies.slice(0, limit) : caseStudies;
 
   return (
     <Section id="case-studies" className="bg-brand-primary text-white overflow-hidden">
@@ -73,7 +80,7 @@ export default function CaseStudies() {
       </div>
 
       <div className="space-y-8">
-        {caseStudies.map((project, idx) => {
+        {displayedStudies.map((project, idx) => {
           const isExpanded = expandedId === project.id;
           
           return (
@@ -92,7 +99,6 @@ export default function CaseStudies() {
                 className="p-8 md:p-12 cursor-pointer flex flex-col md:flex-row gap-10 items-start md:items-center"
                 onClick={() => handleExpand(project)}
               >
-                {/* Thumbnail */}
                 <div className="relative w-full md:w-72 aspect-4/3 rounded-3xl overflow-hidden shrink-0">
                   <img 
                     src={project.imageUrl} 
@@ -107,7 +113,6 @@ export default function CaseStudies() {
                   </div>
                 </div>
 
-                {/* Summary */}
                 <div className="grow">
                   <div className="flex items-center justify-between mb-4">
                     <div className="flex flex-wrap gap-2">
@@ -150,7 +155,6 @@ export default function CaseStudies() {
                 </div>
               </div>
 
-              {/* Expanded content */}
               <AnimatePresence>
                 {isExpanded && (
                   <motion.div
@@ -161,29 +165,22 @@ export default function CaseStudies() {
                     className="overflow-hidden"
                   >
                     <div className="p-8 md:p-12 pt-0 md:pt-0 border-t border-white/5 grid grid-cols-1 md:grid-cols-3 gap-12">
-                      {/* Problem */}
                       <div className="space-y-4">
                         <div className="flex items-center gap-3 text-red-400">
                           <AlertCircle className="w-5 h-5" />
                           <h4 className="text-xs font-black uppercase tracking-widest">The Problem</h4>
                         </div>
-                        <p className="text-sm text-white/70 leading-relaxed">
-                          {project.problem}
-                        </p>
+                        <p className="text-sm text-white/70 leading-relaxed">{project.problem}</p>
                       </div>
 
-                      {/* Solution */}
                       <div className="space-y-4">
                         <div className="flex items-center gap-3 text-brand-accent">
                           <Lightbulb className="w-5 h-5" />
                           <h4 className="text-xs font-black uppercase tracking-widest">The Solution</h4>
                         </div>
-                        <p className="text-sm text-white/70 leading-relaxed">
-                          {project.solution}
-                        </p>
+                        <p className="text-sm text-white/70 leading-relaxed">{project.solution}</p>
                       </div>
 
-                      {/* Impact */}
                       <div className="space-y-4">
                         <div className="flex items-center gap-3 text-green-400">
                           <CheckCircle2 className="w-5 h-5" />
@@ -206,6 +203,20 @@ export default function CaseStudies() {
           );
         })}
       </div>
+
+      {/* Conditional CTA */}
+      {showViewAll && (
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="mt-16 text-center"
+        >
+          <Link to="/case-studies" className="inline-flex items-center gap-2 text-sm font-bold text-brand-primary bg-white px-8 py-4 rounded-xl hover:bg-brand-accent hover:text-white transition-colors">
+            View All Case Studies <ArrowRight className="w-4 h-4" />
+          </Link>
+        </motion.div>
+      )}
     </Section>
   );
 }

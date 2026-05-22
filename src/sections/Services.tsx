@@ -15,8 +15,12 @@ const IconMap: Record<string, any> = {
   Cpu
 };
 
-export default function Services() {
-  // Initialize purely empty, strictly relying on Sanity now
+interface ServicesProps {
+  limit?: number;
+  showViewAll?: boolean;
+}
+
+export default function Services({ limit, showViewAll = false }: ServicesProps) {
   const [services, setServices] = useState<Service[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -35,7 +39,6 @@ export default function Services() {
     trackEvent('consultation_cta_click', { service: serviceName, location: 'services_grid' });
   };
 
-  // Graceful loading state
   if (loading) {
     return (
       <Section id="services" className="bg-muted/40 relative overflow-hidden min-h-[50vh] flex items-center justify-center">
@@ -44,10 +47,12 @@ export default function Services() {
     );
   }
 
-  // Graceful "No Data" state if Sanity is empty or network fails
   if (!services || services.length === 0) {
-    return null; // Simply hide the section if there's no data
+    return null; 
   }
+
+  // Apply the limit if it was passed in as a prop
+  const displayedServices = limit ? services.slice(0, limit) : services;
 
   return (
     <Section id="services" className="bg-muted/40 relative overflow-hidden">
@@ -66,7 +71,7 @@ export default function Services() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        {services.map((service: Service, idx: number) => {
+        {displayedServices.map((service: Service, idx: number) => {
           const Icon = IconMap[service.icon] || Cpu;
           
           return (
@@ -86,7 +91,6 @@ export default function Services() {
               </div>
               
               <div className="space-y-6 mb-8 grow">
-                {/* Problem Section */}
                 <div className="p-5 bg-red-500/5 rounded-2xl border border-red-500/10">
                   <div className="flex items-center gap-2 mb-2 text-red-600">
                     <AlertCircle className="w-4 h-4" />
@@ -97,7 +101,6 @@ export default function Services() {
                   </p>
                 </div>
 
-                {/* Solution Section */}
                 <div className="p-5 bg-green-500/5 rounded-2xl border border-green-500/10">
                   <div className="flex items-center gap-2 mb-2 text-green-600">
                     <Lightbulb className="w-4 h-4" />
@@ -109,7 +112,6 @@ export default function Services() {
                 </div>
               </div>
 
-              {/* Outcomes */}
               <div className="mb-10">
                 <h4 className="text-xs font-black text-brand-primary uppercase tracking-widest mb-4">Key Outcomes</h4>
                 <ul className="space-y-3">
@@ -122,7 +124,6 @@ export default function Services() {
                 </ul>
               </div>
 
-              {/* Footer / Best For */}
               <div className="mt-auto pt-6 border-t border-border flex flex-col sm:flex-row gap-4 sm:items-center justify-between">
                 <div className="flex-1">
                   <span className="block text-[10px] font-black text-muted-foreground uppercase tracking-widest mb-1">Ideal For:</span>
@@ -141,6 +142,20 @@ export default function Services() {
           );
         })}
       </div>
+
+      {/* Conditional CTA for Preview Mode */}
+      {showViewAll && (
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="mt-16 text-center"
+        >
+          <Link to="/services" className="inline-flex items-center gap-2 text-sm font-bold text-white bg-brand-primary px-8 py-4 rounded-xl hover:bg-brand-accent transition-colors shadow-lg shadow-brand-primary/20">
+            View All Services <ArrowRight className="w-4 h-4" />
+          </Link>
+        </motion.div>
+      )}
     </Section>
   );
 }

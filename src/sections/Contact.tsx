@@ -1,10 +1,45 @@
 import Section from '../components/Section';
 import LeadCaptureForm from '../components/LeadCaptureForm';
-import { Mail, MessageCircle, Calendar, Clock, ShieldCheck } from 'lucide-react';
+import { Mail, MessageCircle, Calendar, Clock, ShieldCheck, ArrowRight } from 'lucide-react';
 import WhatsAppCTA from '../components/WhatsAppCTA';
 import { BUSINESS_CONFIG } from '../data/config';
+import { Link } from 'react-router-dom';
 
-export default function Contact() {
+interface ContactProps {
+  variant?: 'preview' | 'full';
+}
+
+export default function Contact({ variant = 'full' }: ContactProps) {
+  // If variant is "preview", show a compact strip instead of the full form
+  if (variant === 'preview') {
+    return (
+      <Section id="contact-preview" className="bg-brand-primary text-white py-24">
+        <div className="max-w-4xl mx-auto text-center">
+          <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-6">
+            Ready to solve your <span className="text-brand-accent">bottlenecks</span>?
+          </h2>
+          <p className="text-xl text-white/60 mb-10 leading-relaxed max-w-2xl mx-auto">
+            Let's review your operational headaches and map out a digital roadmap for scaling your business—no strings attached.
+          </p>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <Link 
+              to="/contact" 
+              className="inline-flex items-center justify-center gap-2 text-sm font-bold text-brand-primary bg-brand-accent px-8 py-4 rounded-xl hover:bg-white transition-colors w-full sm:w-auto shadow-xl shadow-brand-accent/20"
+            >
+              Book Free Consultation <ArrowRight className="w-4 h-4" />
+            </Link>
+            <WhatsAppCTA 
+              variant="outline"
+              className="flex items-center justify-center gap-2 px-8 py-4 border border-white/20 rounded-xl hover:bg-white/10 transition-colors w-full sm:w-auto"
+              label={<span className="font-bold text-sm">WhatsApp Us</span>}
+            />
+          </div>
+        </div>
+      </Section>
+    );
+  }
+
+  // Otherwise, render the full page contact layout
   return (
     <Section id="contact" className="bg-brand-primary text-white">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-start">
