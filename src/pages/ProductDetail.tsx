@@ -301,8 +301,26 @@ export default function ProductDetail() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid lg:grid-cols-2 gap-16">
           
           <div>
-            {/* --- TASK 4.1: Trust Signals (Case Studies) --- */}
-            {product.relatedCaseStudyLinks && product.relatedCaseStudyLinks.length > 0 && (
+            {/* Task 5.2: Real Case Study References (Priority) */}
+            {product.relatedCaseStudies && product.relatedCaseStudies.length > 0 ? (
+               <div className="mb-12">
+               <h3 className="text-2xl font-bold text-gray-900 mb-6">Related Success Stories</h3>
+               <div className="space-y-4">
+                 {/* Explicitly typed parameter to avoid implicit any error */}
+                 {product.relatedCaseStudies.map((cs: { _id: string; title: string; slug: string; clientName: string }) => (
+                   <Link key={cs._id} to={`/case-studies/${cs.slug}`} className="block group bg-white border border-gray-200 rounded-xl p-5 hover:border-indigo-600 hover:shadow-md transition-all">
+                     <div className="flex justify-between items-center">
+                       <div>
+                         <span className="text-sm font-bold text-indigo-600 mb-1 block">{cs.clientName}</span>
+                         <span className="font-bold text-gray-900 group-hover:text-indigo-600 transition-colors">{cs.title}</span>
+                       </div>
+                       <ChevronRight className="w-5 h-5 text-gray-400 group-hover:text-indigo-600" />
+                     </div>
+                   </Link>
+                 ))}
+               </div>
+             </div>
+            ) : product.relatedCaseStudyLinks && product.relatedCaseStudyLinks.length > 0 && (
               <div className="mb-12">
                 <h3 className="text-2xl font-bold text-gray-900 mb-6">Related Success Stories</h3>
                 <div className="space-y-4">
@@ -362,6 +380,17 @@ export default function ProductDetail() {
                 </div>
               </>
             )}
+
+            {/* Task 5.1: Custom Services Callout Block */}
+            <div className="mt-12 bg-slate-50 border border-slate-200 rounded-2xl p-8 text-center sm:text-left flex flex-col sm:flex-row items-center justify-between gap-6">
+              <div>
+                <h4 className="text-lg font-bold text-slate-900">Need something custom?</h4>
+                <p className="text-slate-600 mt-1 text-sm">We can build off this product or create a bespoke solution from scratch tailored to your operations.</p>
+              </div>
+              <Link to="/contact" className="whitespace-nowrap px-6 py-3 bg-white text-slate-900 border border-slate-300 font-bold rounded-xl hover:bg-slate-100 transition-colors text-sm shadow-sm">
+                Discuss Custom Build
+              </Link>
+            </div>
           </div>
         </div>
       </section>

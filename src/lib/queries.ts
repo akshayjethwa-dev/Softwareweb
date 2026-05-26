@@ -76,9 +76,10 @@ export async function fetchProductBySlug(slug: string) {
     featuredProduct,
     seoTitle,
     seoDescription,
-    // Expand relationships to get actual data instead of just IDs
+    // Expand relationships
     "industries": industries[]->{ _id, name, slug },
     "servicesRelated": servicesRelated[]->{ _id, title, "slug": slug.current, icon },
+    "relatedCaseStudies": relatedCaseStudies[]->{ _id, title, "slug": slug.current, clientName, "imageUrl": image.asset->url },
     "faqs": faqs[]->{ question, answer }
   }`, { slug })
 }

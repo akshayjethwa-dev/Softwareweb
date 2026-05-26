@@ -15,6 +15,8 @@ export interface Service {
   fullDescription?: string;
   features?: { title: string; description: string }[];
   faqs?: FAQ[];
+  // Task 5.1: Added relatedProducts
+  relatedProducts?: { id: string; name: string; slug: string; tagline: string; coverImageUrl?: string }[];
 }
 
 export interface Industry {
@@ -46,6 +48,8 @@ export interface CaseStudy {
   servicesUsed: string[];
   metaTitle?: string;
   metaDescription?: string;
+  // Task 5.2: Added relatedProducts
+  relatedProducts?: { id: string; name: string; slug: string; tagline: string; coverImageUrl?: string }[];
 }
 
 export interface PricingPlan {
@@ -99,7 +103,7 @@ export interface Article {
   metaDescription?: string;
 }
 
-// --- NEW PRODUCT INTERFACE ---
+// --- PRODUCT INTERFACE ---
 export interface Product {
   id: string;
   name: string;
@@ -126,17 +130,17 @@ export interface Product {
   seoTitle?: string;
   seoDescription?: string;
   
-  // --- NEW: Trust Signals (Task 4.1) ---
-  isBuiltInHouse?: boolean; // Defaults to true in UI if undefined
+  isBuiltInHouse?: boolean; 
   relatedCaseStudyLinks?: { title: string; url: string }[];
   
-  // --- NEW: Founder Note (Task 4.2) ---
+  // Task 5.2: Added relatedCaseStudies for internal CMS references
+  relatedCaseStudies?: { _id: string; title: string; slug: string; clientName: string; imageUrl?: string }[];
+  
   founderNote?: {
     text: string;
     signature?: string;
   };
 
-  // Deep references
   industries?: { _id: string; name: string; slug: { current: string } }[];
   servicesRelated?: { _id: string; title: string; slug: string; icon: string }[];
   faqs?: FAQ[];

@@ -190,6 +190,39 @@ export default function ServiceDetail() {
         <FAQ faqs={service.faqs} />
       )}
 
+      {/* NEW: Task 5.1 - Relevant Products */}
+      {service.relatedProducts && service.relatedProducts.length > 0 && (
+        <Section className="bg-muted/20 border-t border-border">
+          <div className="text-center mb-12 max-w-2xl mx-auto">
+            <h2 className="text-3xl font-bold mb-4">Relevant Products & Solutions</h2>
+            <p className="text-muted-foreground">Ready-to-deploy software assets we use to accelerate this service.</p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+            {/* Explicitly typed parameter */}
+            {service.relatedProducts.map((product: { id: string; name: string; slug: string; tagline: string; coverImageUrl?: string }) => (
+              <Link 
+                key={product.id}
+                to={`/products/${product.slug}`}
+                className="group flex flex-col md:flex-row bg-background border border-border rounded-3xl overflow-hidden hover:border-brand-primary transition-all"
+              >
+                {product.coverImageUrl && (
+                  <div className="w-full md:w-1/3 aspect-video md:aspect-auto bg-muted">
+                    <img src={product.coverImageUrl} alt={product.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                  </div>
+                )}
+                <div className="p-6 md:w-2/3 flex flex-col justify-center">
+                  <h3 className="text-xl font-bold mb-2 group-hover:text-brand-primary transition-colors">{product.name}</h3>
+                  <p className="text-sm text-muted-foreground mb-4 line-clamp-2">{product.tagline}</p>
+                  <div className="flex items-center gap-2 text-brand-primary font-bold text-sm mt-auto">
+                    Explore Product <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </Section>
+      )}
+
       <Section className="bg-background">
         <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
           <div>

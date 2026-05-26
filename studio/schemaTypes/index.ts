@@ -135,7 +135,7 @@ const product = defineType({
       of: [{ type: 'reference', to: [{ type: 'service' }] }] 
     }),
     
-    // --- NEW: Trust Signals & Narrative (Tasks 4.1 & 4.2) ---
+    // --- NEW: Trust Signals & Narrative (Tasks 4.1, 4.2 & 5.2) ---
     defineField({
       name: 'isBuiltInHouse',
       title: 'Built In-House Badge',
@@ -154,15 +154,22 @@ const product = defineType({
       ]
     }),
     defineField({
-      name: 'relatedCaseStudyLinks',
-      title: 'Related Case Study Links',
+      name: 'relatedCaseStudies',
+      title: 'Related Case Studies',
       type: 'array',
-      description: 'Direct links to external or internal success stories to build trust.',
+      description: 'Link products directly to case studies (Task 5.2).',
+      of: [{ type: 'reference', to: [{ type: 'caseStudy' }] }]
+    }),
+    defineField({
+      name: 'relatedCaseStudyLinks',
+      title: 'External Success Story Links',
+      type: 'array',
+      description: 'Direct links to external success stories to build trust.',
       of: [{
         type: 'object',
         fields: [
-          { name: 'title', title: 'Link Title', type: 'string', description: 'e.g., "See how we saved X hours for Y client"' },
-          { name: 'url', title: 'URL', type: 'url', description: 'The link to the case study.' }
+          { name: 'title', title: 'Link Title', type: 'string' },
+          { name: 'url', title: 'URL', type: 'url' }
         ]
       }]
     }),
@@ -181,14 +188,7 @@ const product = defineType({
       of: [{ 
         type: 'image', 
         options: { hotspot: true },
-        fields: [
-          {
-            name: 'caption',
-            type: 'string',
-            title: 'Caption',
-            description: 'What does this screenshot show?'
-          }
-        ]
+        fields: [{ name: 'caption', type: 'string', title: 'Caption' }]
       }] 
     }),
     defineField({ name: 'logo', title: 'Product Logo / Wordmark', type: 'image', options: { hotspot: true } }),
@@ -209,24 +209,15 @@ const product = defineType({
     // Toggles & Admin
     defineField({ 
       name: 'showOnWebsite', title: 'Product Visibility Toggle (Show on Website)', type: 'boolean', initialValue: true,
-      description: 'Turn off to hide this product from the public frontend.',
       validation: (Rule) => Rule.required()
     }),
     defineField({ name: 'featuredProduct', title: 'Featured Toggle', type: 'boolean', initialValue: false }),
     defineField({ name: 'order', title: 'Sort Order', type: 'number', description: 'Used to control display order.' }),
     
     // SEO Settings
-    defineField({ 
-      name: 'seoTitle', title: 'SEO Title', type: 'string',
-      description: 'Title tag for search engines (Recommended: 50-60 characters).'
-    }),
-    defineField({ 
-      name: 'seoDescription', title: 'SEO Description', type: 'text',
-      description: 'Meta description for search engines (Recommended: 150-160 characters).'
-    }),
-    defineField({ name: 'seoKeywords', title: 'SEO Keywords', type: 'string', description: 'Comma-separated keywords.' }),
-    
-    // FAQs
+    defineField({ name: 'seoTitle', title: 'SEO Title', type: 'string' }),
+    defineField({ name: 'seoDescription', title: 'SEO Description', type: 'text' }),
+    defineField({ name: 'seoKeywords', title: 'SEO Keywords', type: 'string' }),
     defineField({ name: 'faqs', title: 'FAQ References', type: 'array', of: [{ type: 'reference', to: [{ type: 'faq' }] }] }),
   ]
 })
@@ -268,6 +259,8 @@ const service = defineType({
     defineField({ name: 'typicalClients', title: 'Typical Clients', type: 'text' }),
     defineField({ name: 'features', title: 'Core Capabilities', type: 'array', of: [{ type: 'object', fields: [{name: 'title', type: 'string'}, {name: 'description', type: 'text'}] }] }),
     defineField({ name: 'faqs', title: 'Related FAQs', type: 'array', of: [{ type: 'reference', to: [{ type: 'faq' }] }] }),
+    // NEW: Task 5.1
+    defineField({ name: 'relatedProducts', title: 'Relevant Products', type: 'array', of: [{ type: 'reference', to: [{ type: 'product' }] }] }),
   ]
 })
 
@@ -287,6 +280,8 @@ const caseStudy = defineType({
     defineField({ name: 'image', title: 'Cover Image', type: 'image', options: { hotspot: true } }),
     defineField({ name: 'techStack', title: 'Tech Stack', type: 'array', of: [{ type: 'string' }] }),
     defineField({ name: 'servicesUsed', title: 'Services Used', type: 'array', of: [{ type: 'string' }] }),
+    // NEW: Task 5.2
+    defineField({ name: 'relatedProducts', title: 'Products Used', type: 'array', of: [{ type: 'reference', to: [{ type: 'product' }] }] }),
   ]
 })
 

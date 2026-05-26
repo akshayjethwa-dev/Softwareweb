@@ -199,6 +199,27 @@ export default function CaseStudyDetail() {
                   );
                 })}
               </ul>
+
+              {/* NEW: Task 5.2 - Products Used */}
+              {project.relatedProducts && project.relatedProducts.length > 0 && (
+                <>
+                  <h3 className="text-xl font-bold mb-4 border-t border-white/20 pt-8">Products Leveraged</h3>
+                  <div className="space-y-4 mb-10">
+                    {/* Explicitly typed parameter */}
+                    {project.relatedProducts.map((product: { id: string; name: string; slug: string; tagline: string; coverImageUrl?: string }) => (
+                      <Link 
+                        key={product.id} 
+                        to={`/products/${product.slug}`}
+                        className="block bg-white/10 border border-white/20 rounded-xl p-4 hover:bg-white/20 transition-colors group"
+                      >
+                        <h4 className="font-bold text-white group-hover:text-brand-accent transition-colors mb-1">{product.name}</h4>
+                        <p className="text-xs text-white/70 line-clamp-2">{product.tagline}</p>
+                      </Link>
+                    ))}
+                  </div>
+                </>
+              )}
+
               <button className="w-full py-4 bg-white text-brand-primary rounded-xl font-bold hover:shadow-xl transition-all flex items-center justify-center gap-2">
                 View Live Demo <ExternalLink className="w-4 h-4" />
               </button>

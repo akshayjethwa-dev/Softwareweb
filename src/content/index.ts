@@ -22,7 +22,8 @@ export const getServiceById = async (slug: string) => {
     return await sanityClient.fetch(`*[_type == "service" && slug.current == $slug][0]{
       ...,
       "id": slug.current,
-      "faqs": faqs[]->{question, answer}
+      "faqs": faqs[]->{question, answer},
+      "relatedProducts": relatedProducts[]->{ "id": _id, name, "slug": slug.current, tagline, "coverImageUrl": coverImage.asset->url }
     }`, { slug });
   } catch (error) {
     console.error(`Sanity fetch failed for Service ${slug}:`, error);
@@ -49,7 +50,8 @@ export const getCaseStudyById = async (slug: string) => {
     return await sanityClient.fetch(`*[_type == "caseStudy" && slug.current == $slug][0] {
       ...,
       "id": slug.current,
-      "imageUrl": image.asset->url
+      "imageUrl": image.asset->url,
+      "relatedProducts": relatedProducts[]->{ "id": _id, name, "slug": slug.current, tagline, "coverImageUrl": coverImage.asset->url }
     }`, { slug });
   } catch (error) {
     console.error(`Sanity fetch failed for Case Study ${slug}:`, error);
