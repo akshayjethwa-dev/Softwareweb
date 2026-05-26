@@ -1,6 +1,6 @@
 import { motion, useScroll, useTransform } from 'motion/react';
 import { useRef } from 'react';
-import { ArrowRight, MessageCircle, CheckCircle, Smartphone, Layout as LayoutIcon } from 'lucide-react';
+import { ArrowRight, MessageCircle, CheckCircle, Shield, Clock, Users } from 'lucide-react';
 import { useLeadModal } from '../components/Layout';
 import WhatsAppCTA from '../components/WhatsAppCTA';
 import { BUSINESS_CONFIG } from '../data/config';
@@ -43,12 +43,18 @@ export default function Hero() {
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
         >
-          <div className="inline-flex items-center gap-2 px-3 py-1 bg-brand-accent/10 border border-brand-accent/20 rounded-full text-brand-accent text-xs font-bold uppercase tracking-wider mb-8">
-            <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-accent opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-brand-accent"></span>
-            </span>
-            Based in {config.location}
+          <div className="flex items-center gap-4 mb-6">
+            <div className="inline-flex items-center gap-2 px-3 py-1 bg-brand-accent/10 border border-brand-accent/20 rounded-full text-brand-accent text-xs font-bold uppercase tracking-wider">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-accent opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-brand-accent"></span>
+              </span>
+              Based in {config?.location || 'India'}
+            </div>
+            {/* NEW: ICP Statement */}
+            <div className="text-xs font-black text-brand-primary uppercase tracking-widest hidden sm:block border-l-2 border-border pl-4">
+              Built for Ambitious SMEs & Founders
+            </div>
           </div>
 
           <h1 className="text-4xl md:text-6xl xl:text-7xl font-bold tracking-tight mb-8 leading-[1.1] text-balance">
@@ -56,7 +62,7 @@ export default function Hero() {
           </h1>
           
           <p className="text-lg md:text-xl text-muted-foreground mb-10 max-w-xl leading-relaxed">
-            {config.description}
+            {config?.description || 'We engineer custom SaaS and internal tools that eliminate bottlenecks.'}
           </p>
 
           <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 mb-12">
@@ -76,20 +82,32 @@ export default function Hero() {
           </div>
 
           {/* Metrics */}
+          {config?.metrics && (
+            <motion.div 
+              style={{ y: metricsY }}
+              className="grid grid-cols-3 gap-8 pt-8 border-t border-border"
+            >
+              {config.metrics.map((metric) => (
+                <div key={metric.label}>
+                  <div className="text-2xl font-bold">{metric.value}</div>
+                  <div className="text-xs text-muted-foreground uppercase tracking-wide font-medium">{metric.label}</div>
+                </div>
+              ))}
+            </motion.div>
+          )}
+
+          {/* NEW: Trust Strip */}
           <motion.div 
             style={{ y: metricsY }}
-            className="grid grid-cols-3 gap-8 pt-8 border-t border-border"
+            className="mt-8 pt-6 border-t border-border flex flex-wrap items-center gap-x-8 gap-y-4 text-sm font-medium text-muted-foreground"
           >
-            {config.metrics.map((metric) => (
-              <div key={metric.label}>
-                <div className="text-2xl font-bold">{metric.value}</div>
-                <div className="text-xs text-muted-foreground uppercase tracking-wide font-medium">{metric.label}</div>
-              </div>
-            ))}
+            <div className="flex items-center gap-2"><Clock className="w-4 h-4 text-brand-accent"/> 14-Day Sprints</div>
+            <div className="flex items-center gap-2"><Shield className="w-4 h-4 text-brand-accent"/> IP Ownership</div>
+            <div className="flex items-center gap-2"><Users className="w-4 h-4 text-brand-accent"/> Direct Tech Lead Access</div>
           </motion.div>
         </motion.div>
 
-        {/* Visual Mockup Block */}
+        {/* Visual Mockup Block (Unchanged) */}
         <motion.div
           style={{ y: mockupY, scale: mockupScale }}
           className="relative perspective-1000 hidden lg:block"
@@ -97,7 +115,6 @@ export default function Hero() {
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1, delay: 0.2 }}
         >
-          {/* Main Dashboard Mockup */}
           <div className="bg-background border border-border rounded-3xl shadow-2xl p-6 relative z-10 overflow-hidden group">
             <div className="flex items-center gap-2 mb-6 border-b border-border pb-4">
               <div className="w-3 h-3 rounded-full bg-red-400" />
@@ -117,7 +134,6 @@ export default function Hero() {
               <div className="h-40 bg-muted/30 rounded-2xl" />
             </div>
 
-            {/* Float Elements */}
             <motion.div 
               animate={{ y: [0, -10, 0] }}
               transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
@@ -147,7 +163,6 @@ export default function Hero() {
             </motion.div>
           </div>
 
-          {/* Background shapes */}
           <div className="absolute -top-10 -left-10 w-full h-full bg-brand-accent/5 rounded-3xl rotate-3 -z-10" />
           <div className="absolute -bottom-10 -right-10 w-full h-full bg-brand-primary/5 rounded-3xl -rotate-3 -z-10" />
         </motion.div>

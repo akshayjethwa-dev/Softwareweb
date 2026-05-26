@@ -18,3 +18,6 @@ View your app in AI Studio: https://ai.studio/apps/6ded7189-0f98-4e90-a704-57cf0
 2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
 3. Run the app:
    `npm run dev`
+
+## Content Management
+We use Sanity CMS for managing dynamic content. Before editing page layouts or adding new sections, **you must read the [Content Rules](./CONTENT_RULES.md)** to ensure you do not break the SEO intent separation or clutter the homepage.
