@@ -179,7 +179,6 @@ const product = defineType({
     defineField({ 
       name: 'coverImage', title: 'Cover Image', type: 'image', options: { hotspot: true },
       description: 'Main image used for preview cards and headers.',
-      validation: (Rule) => Rule.required() 
     }),
     defineField({ 
       name: 'gallery', 
