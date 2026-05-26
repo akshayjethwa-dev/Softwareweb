@@ -100,7 +100,6 @@ export interface Article {
 }
 
 // --- NEW PRODUCT INTERFACE ---
-// Add this inside src/types.ts, replacing the previous Product interface
 export interface Product {
   id: string;
   name: string;
@@ -126,6 +125,17 @@ export interface Product {
   featuredProduct?: boolean;
   seoTitle?: string;
   seoDescription?: string;
+  
+  // --- NEW: Trust Signals (Task 4.1) ---
+  isBuiltInHouse?: boolean; // Defaults to true in UI if undefined
+  relatedCaseStudyLinks?: { title: string; url: string }[];
+  
+  // --- NEW: Founder Note (Task 4.2) ---
+  founderNote?: {
+    text: string;
+    signature?: string;
+  };
+
   // Deep references
   industries?: { _id: string; name: string; slug: { current: string } }[];
   servicesRelated?: { _id: string; title: string; slug: string; icon: string }[];

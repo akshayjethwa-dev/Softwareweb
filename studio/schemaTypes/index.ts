@@ -40,13 +40,12 @@ const whyUsPoint = defineType({
   ]
 })
 
-// --- PRODUCT SCHEMA (TASKS 1.1, 1.2, 1.3) ---
+// --- PRODUCT SCHEMA ---
 
 const product = defineType({
   name: 'product',
   title: 'Product',
   type: 'document',
-  // Task 1.3: Preview configuration
   preview: {
     select: {
       title: 'name',
@@ -68,7 +67,7 @@ const product = defineType({
     }
   },
   fields: [
-    // Core Info & Validation (Task 1.2)
+    // Core Info & Validation
     defineField({ 
       name: 'name', title: 'Product Name', type: 'string',
       description: 'The official name of the product.',
@@ -110,7 +109,7 @@ const product = defineType({
     defineField({ name: 'primaryProblemSolved', title: 'Primary Problem Solved', type: 'text' }),
     defineField({ name: 'idealFor', title: 'Ideal For', type: 'string', description: 'Who is this product built for?' }),
     
-    // Features & Outcomes (Arrays)
+    // Features & Outcomes
     defineField({ 
       name: 'keyFeatures', title: 'Key Features', type: 'array', 
       description: 'Add at least 3 core features of the product.',
@@ -136,6 +135,39 @@ const product = defineType({
       of: [{ type: 'reference', to: [{ type: 'service' }] }] 
     }),
     
+    // --- NEW: Trust Signals & Narrative (Tasks 4.1 & 4.2) ---
+    defineField({
+      name: 'isBuiltInHouse',
+      title: 'Built In-House Badge',
+      type: 'boolean',
+      initialValue: true,
+      description: 'Toggle to show/hide the "Built In-House by Ashrey Systems" trust badge. Defaults to true.'
+    }),
+    defineField({
+      name: 'founderNote',
+      title: "Founder's Note",
+      type: 'object',
+      description: "Optional founder's perspective block to add narrative trust.",
+      fields: [
+        { name: 'text', title: 'Quote Text', type: 'text', description: 'The quote from the founder about why this product was built.' },
+        { name: 'signature', title: 'Signature / Name', type: 'string', description: 'e.g., Akshay Jethwa' }
+      ]
+    }),
+    defineField({
+      name: 'relatedCaseStudyLinks',
+      title: 'Related Case Study Links',
+      type: 'array',
+      description: 'Direct links to external or internal success stories to build trust.',
+      of: [{
+        type: 'object',
+        fields: [
+          { name: 'title', title: 'Link Title', type: 'string', description: 'e.g., "See how we saved X hours for Y client"' },
+          { name: 'url', title: 'URL', type: 'url', description: 'The link to the case study.' }
+        ]
+      }]
+    }),
+    // --------------------------------------------------------
+
     // Media
     defineField({ 
       name: 'coverImage', title: 'Cover Image', type: 'image', options: { hotspot: true },
@@ -165,8 +197,7 @@ const product = defineType({
     defineField({ name: 'demoUrl', title: 'Demo URL', type: 'url' }),
     defineField({ 
       name: 'ctaLabel', title: 'CTA Label', type: 'string',
-      description: 'Text for the primary button (e.g., "Request Demo", "Get Started").',
-      validation: (Rule) => Rule.required() 
+      description: 'Text for the primary button (e.g., "Request Demo", "Get Started").'
     }),
     defineField({ name: 'ctaUrl', title: 'CTA URL', type: 'url' }),
     defineField({ 
@@ -187,13 +218,11 @@ const product = defineType({
     // SEO Settings
     defineField({ 
       name: 'seoTitle', title: 'SEO Title', type: 'string',
-      description: 'Title tag for search engines (Recommended: 50-60 characters).',
-      validation: (Rule) => Rule.required() 
+      description: 'Title tag for search engines (Recommended: 50-60 characters).'
     }),
     defineField({ 
       name: 'seoDescription', title: 'SEO Description', type: 'text',
-      description: 'Meta description for search engines (Recommended: 150-160 characters).',
-      validation: (Rule) => Rule.required() 
+      description: 'Meta description for search engines (Recommended: 150-160 characters).'
     }),
     defineField({ name: 'seoKeywords', title: 'SEO Keywords', type: 'string', description: 'Comma-separated keywords.' }),
     
@@ -316,5 +345,5 @@ const plan = defineType({
 export const schemaTypes = [
   siteSettings, processStep, industry, whyUsPoint,
   service, caseStudy, article, faq, testimonial, plan,
-  product // <-- Added product to the schemaTypes export here
+  product
 ]

@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import SEO from '../components/SEO';
 import { fetchProducts } from '../lib/queries';
 import { Product } from '../types';
-import { ArrowRight, CheckCircle2, ExternalLink, Target, AlertCircle, Zap } from 'lucide-react';
+import { ArrowRight, ExternalLink, Target, AlertCircle, Zap, ShieldCheck } from 'lucide-react';
 
 export default function ProductsPage() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -24,29 +24,21 @@ export default function ProductsPage() {
     loadProducts();
   }, []);
 
-  // --- FILTERING LOGIC (Task 2.3) ---
-  
-  // Extract unique product types for the filter chips dynamically
   const availableFilters = useMemo(() => {
     const types = products.map(p => p.productType).filter(Boolean) as string[];
     const uniqueTypes = Array.from(new Set(types));
     return ['All', ...uniqueTypes];
   }, [products]);
 
-  // Apply the active filter
   const filteredProducts = useMemo(() => {
     if (activeFilter === 'All') return products;
     return products.filter(p => p.productType === activeFilter);
   }, [products, activeFilter]);
 
-  // Format filter labels (e.g., 'internal-tool' -> 'Internal Tool')
   const formatFilterLabel = (label: string) => {
     if (label === 'All') return 'All Solutions';
     return label.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
   };
-
-
-  // --- UI HELPERS (Task 2.2) ---
 
   const getStatusBadge = (status: string) => {
     const statusMap: Record<string, { label: string; classes: string }> = {
@@ -60,17 +52,17 @@ export default function ProductsPage() {
     return <span className={`px-2.5 py-1 rounded-md text-xs font-semibold border ${mapped.classes} uppercase tracking-wider`}>{mapped.label}</span>;
   };
 
-  // Smart CTA Generation based on product status
+  // --- TASK 4.3: Request Demo / Licensing CTA Framework ---
   const getTailoredCTA = (product: Product) => {
-    if (product.ctaLabel) return product.ctaLabel; // Respect explicit CMS override
+    if (product.ctaLabel) return product.ctaLabel; 
     
     switch (product.status) {
-      case 'live': return 'Explore Product';
+      case 'live': return 'Request Demo';
       case 'beta': return 'Request Beta Access';
-      case 'private': return 'Request Demo';
+      case 'private': return 'Talk to Us About a Similar Build';
       case 'available-for-licensing': return 'Discuss Licensing';
-      case 'white-label-ready': return 'View White-Label Options';
-      default: return 'Learn More';
+      case 'white-label-ready': return 'Launch This for Your Business';
+      default: return 'Contact Us';
     }
   };
 
@@ -82,8 +74,6 @@ export default function ProductsPage() {
       />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
-        {/* Header Section */}
         <div className="text-center max-w-3xl mx-auto mb-12">
           <h1 className="text-4xl font-extrabold text-slate-900 tracking-tight sm:text-5xl">
             Commercial Platforms & Solutions
@@ -93,7 +83,6 @@ export default function ProductsPage() {
           </p>
         </div>
 
-        {/* Filter Section (Task 2.3) */}
         {!isLoading && availableFilters.length > 1 && (
           <div className="flex flex-wrap justify-center gap-2 mb-16">
             {availableFilters.map((filter) => (
@@ -112,13 +101,11 @@ export default function ProductsPage() {
           </div>
         )}
 
-        {/* Loading State */}
         {isLoading ? (
           <div className="flex justify-center items-center py-20">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
           </div>
         ) : (
-          /* Products Grid (Task 2.2 Impact-First Design) */
           <div className="grid gap-12">
             {filteredProducts.length === 0 ? (
               <div className="text-center py-20 bg-white rounded-2xl border border-dashed border-slate-300">
@@ -136,10 +123,16 @@ export default function ProductsPage() {
                   key={product.id} 
                   className="flex flex-col lg:flex-row bg-white rounded-2xl shadow-sm hover:shadow-xl transition-shadow duration-300 overflow-hidden border border-slate-200"
                 >
-                  {/* Left Side: Business Impact Content */}
                   <div className="lg:w-3/5 p-8 sm:p-10 flex flex-col order-2 lg:order-1">
                     
-                    {/* Meta Header */}
+                    {/* --- TASK 4.1: Trust Signal Badge --- */}
+                    {product.isBuiltInHouse !== false && (
+                      <div className="flex items-center text-indigo-600 mb-6 bg-indigo-50 w-fit px-3 py-1.5 rounded-full border border-indigo-100">
+                        <ShieldCheck className="w-4 h-4 mr-2" />
+                        <span className="text-xs font-bold uppercase tracking-wide">Built In-House by Ashrey Systems</span>
+                      </div>
+                    )}
+
                     <div className="flex flex-wrap items-center gap-3 mb-6">
                       {getStatusBadge(product.status)}
                       {product.productType && (
@@ -150,13 +143,10 @@ export default function ProductsPage() {
                       )}
                     </div>
 
-                    {/* Core Identity */}
                     <h2 className="text-3xl font-bold text-slate-900 mb-2">{product.name}</h2>
                     <p className="text-lg font-medium text-indigo-600 mb-6">{product.tagline}</p>
                     
-                    {/* Business Framing Grid */}
                     <div className="grid sm:grid-cols-2 gap-6 mb-8 grow">
-                      {/* Problem Statement */}
                       {product.primaryProblemSolved && (
                         <div className="bg-slate-50 p-5 rounded-xl border border-slate-100">
                           <h3 className="text-sm font-bold text-slate-900 uppercase tracking-wider mb-2 flex items-center">
@@ -169,7 +159,6 @@ export default function ProductsPage() {
                         </div>
                       )}
 
-                      {/* Ideal Customer Segment */}
                       {product.idealFor && (
                         <div className="bg-slate-50 p-5 rounded-xl border border-slate-100">
                           <h3 className="text-sm font-bold text-slate-900 uppercase tracking-wider mb-2 flex items-center">
@@ -183,7 +172,6 @@ export default function ProductsPage() {
                       )}
                     </div>
 
-                    {/* Single High-Impact Proof Point / Benefit */}
                     {(product.keyOutcomes && product.keyOutcomes.length > 0) ? (
                       <div className="mb-8 flex items-start">
                         <Zap className="w-5 h-5 text-amber-500 mr-3 shrink-0 mt-0.5" />
@@ -196,7 +184,6 @@ export default function ProductsPage() {
                       <p className="text-slate-600 mb-8">{product.description}</p>
                     )}
 
-                    {/* Tailored CTAs */}
                     <div className="flex flex-col sm:flex-row gap-4 mt-auto pt-6 border-t border-slate-100">
                       {product.ctaUrl ? (
                         <a 
@@ -227,7 +214,6 @@ export default function ProductsPage() {
                     </div>
                   </div>
 
-                  {/* Right Side: Media (Swapped to right for business logic flow) */}
                   <div className="lg:w-2/5 flex items-center justify-center bg-slate-100 border-b lg:border-b-0 lg:border-l border-slate-200 relative overflow-hidden group order-1 lg:order-2 min-h-62.5 lg:min-h-full">
                     {product.coverImageUrl ? (
                       <img 

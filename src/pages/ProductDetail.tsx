@@ -3,7 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import { fetchProductBySlug } from '../lib/queries';
 import { Product } from '../types';
 import SEO from '../components/SEO';
-import { ArrowRight, CheckCircle2, ExternalLink, Target, AlertCircle, Zap, Shield, ChevronRight, LayoutTemplate } from 'lucide-react';
+import { ArrowRight, CheckCircle2, ExternalLink, Target, AlertCircle, Zap, Shield, ChevronRight, LayoutTemplate, ShieldCheck, Quote } from 'lucide-react';
 import NotFound from './NotFound';
 
 export default function ProductDetail() {
@@ -39,15 +39,15 @@ export default function ProductDetail() {
     return <NotFound />;
   }
 
-  // Helper for CTA
+  // --- TASK 4.3: Request Demo / Licensing CTA Framework ---
   const getTailoredCTA = () => {
     if (product.ctaLabel) return product.ctaLabel;
     switch (product.status) {
-      case 'live': return 'Explore Product';
+      case 'live': return 'Request Demo';
       case 'beta': return 'Request Beta Access';
-      case 'private': return 'Request Demo';
+      case 'private': return 'Talk to Us About a Similar Build';
       case 'available-for-licensing': return 'Discuss Licensing';
-      case 'white-label-ready': return 'View White-Label Options';
+      case 'white-label-ready': return 'Launch This for Your Business';
       default: return 'Contact Us';
     }
   };
@@ -75,7 +75,16 @@ export default function ProductDetail() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
             <div className="lg:w-1/2 text-center lg:text-left">
-              <div className="inline-flex items-center space-x-2 bg-slate-800/50 rounded-full px-4 py-1.5 border border-slate-700 mb-6 backdrop-blur-sm">
+              
+              {/* --- TASK 4.1: Trust Signal Badge --- */}
+              {product.isBuiltInHouse !== false && (
+                <div className="inline-flex items-center text-indigo-300 mb-6 bg-slate-800/80 px-4 py-2 rounded-full border border-slate-700 backdrop-blur-sm shadow-sm">
+                  <ShieldCheck className="w-5 h-5 mr-2 text-indigo-400" />
+                  <span className="text-sm font-bold uppercase tracking-widest">Built In-House by Ashrey Systems</span>
+                </div>
+              )}
+
+              <div className="inline-flex items-center space-x-2 bg-slate-800/50 rounded-full px-4 py-1.5 border border-slate-700 mb-6 backdrop-blur-sm ml-0 lg:ml-4">
                 <span className="flex h-2 w-2 relative">
                   <span className={`animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 ${product.status === 'live' ? 'bg-emerald-400' : 'bg-indigo-400'}`}></span>
                   <span className={`relative inline-flex rounded-full h-2 w-2 ${product.status === 'live' ? 'bg-emerald-500' : 'bg-indigo-500'}`}></span>
@@ -114,7 +123,7 @@ export default function ProductDetail() {
                 )}
                 {product.demoUrl && (
                   <a href={product.demoUrl} target="_blank" rel="noopener noreferrer" className="inline-flex justify-center items-center px-8 py-4 text-lg font-bold rounded-xl text-white border-2 border-slate-700 hover:border-indigo-500 hover:bg-slate-800 transition-colors">
-                    View Demo
+                    View Live Demo
                   </a>
                 )}
               </div>
@@ -140,7 +149,33 @@ export default function ProductDetail() {
         </div>
       </section>
 
-      {/* --- TASK 3.2: BUSINESS VALUE STORYTELLING --- */}
+      {/* --- TASK 4.2: FOUNDER's NOTE --- */}
+      {product.founderNote && (
+        <section className="pt-16 pb-8 bg-white">
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="bg-slate-50 rounded-3xl p-8 md:p-12 relative overflow-hidden border border-slate-200 shadow-sm">
+              <Quote className="absolute -top-6 -left-6 w-32 h-32 text-indigo-100 opacity-60 transform -rotate-12" />
+              <div className="relative z-10">
+                <h3 className="text-sm font-bold text-indigo-600 uppercase tracking-widest mb-4">Founder's Note</h3>
+                <p className="text-xl md:text-2xl text-slate-800 leading-relaxed font-medium mb-8">
+                  "{product.founderNote.text}"
+                </p>
+                <div className="flex items-center">
+                  <div className="w-12 h-12 bg-slate-900 rounded-full flex items-center justify-center text-white font-bold text-xl mr-4 shadow-inner">
+                    {product.founderNote.signature ? product.founderNote.signature.charAt(0) : 'A'}
+                  </div>
+                  <div>
+                    <p className="font-bold text-slate-900 text-lg">{product.founderNote.signature || 'Akshay Jethwa'}</p>
+                    <p className="text-sm text-slate-500 font-medium">Founder, Ashrey Systems</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* --- BUSINESS VALUE STORYTELLING --- */}
       <section className="py-20 lg:py-32 bg-slate-50 border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-3xl mx-auto mb-16">
@@ -159,7 +194,6 @@ export default function ProductDetail() {
           </div>
 
           <div className="grid md:grid-cols-2 gap-10 max-w-5xl mx-auto">
-            {/* The Problem Before */}
             {product.primaryProblemSolved && (
               <div className="bg-white rounded-2xl p-8 border border-rose-100 shadow-sm relative overflow-hidden">
                 <div className="absolute top-0 left-0 w-1 h-full bg-rose-500"></div>
@@ -171,7 +205,6 @@ export default function ProductDetail() {
               </div>
             )}
 
-            {/* Who It Fixes This For */}
             {product.idealFor && (
               <div className="bg-white rounded-2xl p-8 border border-indigo-100 shadow-sm relative overflow-hidden">
                 <div className="absolute top-0 left-0 w-1 h-full bg-indigo-500"></div>
@@ -186,7 +219,7 @@ export default function ProductDetail() {
         </div>
       </section>
 
-      {/* --- TASK 3.3: SCREENSHOTS & GALLERY BLOCK --- */}
+      {/* --- SCREENSHOTS & GALLERY BLOCK --- */}
       {product.gallery && product.gallery.length > 0 && (
         <section className="py-20 lg:py-32 bg-white border-b border-gray-100">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -198,12 +231,10 @@ export default function ProductDetail() {
               <p className="mt-4 text-lg text-slate-600">See exactly how the interface drives operational efficiency.</p>
             </div>
 
-            {/* Gallery Grid */}
             <div className="grid md:grid-cols-2 gap-8">
               {product.gallery.map((img, idx) => (
                 <div key={idx} className="group flex flex-col">
                   <div className="relative rounded-xl overflow-hidden border border-slate-200 shadow-sm bg-slate-100 mb-4 grow">
-                    {/* Browser Mockup Top Bar */}
                     <div className="bg-slate-200/50 border-b border-slate-200 px-3 py-2 flex items-center space-x-1.5">
                       <div className="w-2.5 h-2.5 rounded-full bg-slate-300"></div>
                       <div className="w-2.5 h-2.5 rounded-full bg-slate-300"></div>
@@ -247,7 +278,6 @@ export default function ProductDetail() {
             ))}
           </div>
 
-          {/* Business Impact / Outcomes */}
           {product.keyOutcomes && product.keyOutcomes.length > 0 && (
             <div className="max-w-4xl mx-auto bg-slate-900 rounded-3xl p-10 md:p-16 text-center text-white shadow-2xl relative overflow-hidden">
                <div className="absolute top-0 right-0 -mr-10 -mt-10 w-64 h-64 rounded-full bg-indigo-500 opacity-20 blur-3xl"></div>
@@ -270,8 +300,24 @@ export default function ProductDetail() {
       <section className="py-20 lg:py-32">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid lg:grid-cols-2 gap-16">
           
-          {/* Left: Cross-linking */}
           <div>
+            {/* --- TASK 4.1: Trust Signals (Case Studies) --- */}
+            {product.relatedCaseStudyLinks && product.relatedCaseStudyLinks.length > 0 && (
+              <div className="mb-12">
+                <h3 className="text-2xl font-bold text-gray-900 mb-6">Related Success Stories</h3>
+                <div className="space-y-4">
+                  {product.relatedCaseStudyLinks.map((cs, idx) => (
+                    <Link key={idx} to={cs.url} className="block group bg-white border border-gray-200 rounded-xl p-5 hover:border-indigo-600 hover:shadow-md transition-all">
+                      <div className="flex justify-between items-center">
+                        <span className="font-bold text-gray-900 group-hover:text-indigo-600 transition-colors">{cs.title}</span>
+                        <ChevronRight className="w-5 h-5 text-gray-400 group-hover:text-indigo-600" />
+                      </div>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            )}
+
             {product.servicesRelated && product.servicesRelated.length > 0 && (
               <div className="mb-12">
                 <h3 className="text-2xl font-bold text-gray-900 mb-6">Related Services</h3>
@@ -302,7 +348,6 @@ export default function ProductDetail() {
             )}
           </div>
 
-          {/* Right: FAQs */}
           <div>
             {product.faqs && product.faqs.length > 0 && (
               <>
@@ -318,7 +363,6 @@ export default function ProductDetail() {
               </>
             )}
           </div>
-
         </div>
       </section>
 
@@ -330,10 +374,13 @@ export default function ProductDetail() {
             Get in touch to discuss deployment, licensing, or request a technical demo.
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
+            
+            {/* Task 4.3 Outputting dynamic CTA based on product status */}
             <Link to="/contact" className="inline-flex justify-center items-center px-8 py-4 text-lg font-bold rounded-xl text-indigo-600 bg-white hover:bg-gray-50 shadow-lg transition-colors">
-              Talk to an Expert
+              {getTailoredCTA()}
               <ArrowRight className="ml-2 w-5 h-5" />
             </Link>
+            
             {product.demoUrl && (
               <a href={product.demoUrl} target="_blank" rel="noopener noreferrer" className="inline-flex justify-center items-center px-8 py-4 text-lg font-bold rounded-xl text-white border border-indigo-400 hover:bg-indigo-700 transition-colors">
                 View Live Demo
