@@ -5,6 +5,7 @@ import { Product } from '../types';
 import SEO from '../components/SEO';
 import { ArrowRight, CheckCircle2, ExternalLink, Target, AlertCircle, Zap, Shield, ChevronRight, LayoutTemplate, ShieldCheck, Quote } from 'lucide-react';
 import NotFound from './NotFound';
+import { BUSINESS_CONFIG } from '../data/config';
 
 export default function ProductDetail() {
   const { slug } = useParams<{ slug: string }>();
@@ -39,7 +40,6 @@ export default function ProductDetail() {
     return <NotFound />;
   }
 
-  // --- TASK 4.3: Request Demo / Licensing CTA Framework ---
   const getTailoredCTA = () => {
     if (product.ctaLabel) return product.ctaLabel;
     switch (product.status) {
@@ -59,6 +59,49 @@ export default function ProductDetail() {
     'available-for-licensing': 'Licensable IP',
     'white-label-ready': 'White-Label Ready'
   };
+
+  const pageTitle = product.seoTitle || `${product.name} | Custom Software for Indian Businesses`;
+  const pageDescription = product.seoDescription || product.description || product.tagline;
+  const canonicalUrl = `${BUSINESS_CONFIG.url}/products/${product.slug}`;
+  const ogImage = product.coverImageUrl || product.logoUrl;
+
+  // --- TASK 7.2: Structured Data (JSON-LD) ---
+  const schemas: any[] = [];
+
+  // 1. SoftwareApplication Schema
+  schemas.push({
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": product.name,
+    "description": pageDescription,
+    "applicationCategory": product.productType ? product.productType.replace(/-/g, ' ') : "BusinessApplication",
+    "operatingSystem": "Web Application, Cloud-based",
+    "offers": {
+      "@type": "Offer",
+      "priceCurrency": "INR",
+      "price": "0", // Fallback for schema validity; actual pricing is custom
+      "description": product.startingPriceText || product.pricingModel || "Custom B2B Pricing",
+      "availability": "https://schema.org/InStock"
+    },
+    ...(ogImage && { "image": ogImage }),
+    ...(product.demoUrl && { "url": product.demoUrl })
+  });
+
+  // 2. FAQPage Schema (Appended only if FAQs exist)
+  if (product.faqs && product.faqs.length > 0) {
+    schemas.push({
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": product.faqs.map((faq) => ({
+        "@type": "Question",
+        "name": faq.question,
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": faq.answer
+        }
+      }))
+    });
+  }
 
   return (
     <div className="bg-white">
@@ -404,7 +447,6 @@ export default function ProductDetail() {
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
             
-            {/* Task 4.3 Outputting dynamic CTA based on product status */}
             <Link to="/contact" className="inline-flex justify-center items-center px-8 py-4 text-lg font-bold rounded-xl text-indigo-600 bg-white hover:bg-gray-50 shadow-lg transition-colors">
               {getTailoredCTA()}
               <ArrowRight className="ml-2 w-5 h-5" />

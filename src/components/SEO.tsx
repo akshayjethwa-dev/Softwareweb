@@ -5,18 +5,22 @@ interface SEOProps {
   title?: string;
   description?: string;
   canonical?: string;
-  type?: 'website' | 'article';
+  type?: 'website' | 'article' | 'product'; // Added 'product'
+  image?: string; // Added image override
+  schemaMarkup?: any; // Added custom schema injection
 }
 
 export default function SEO({ 
   title = `${BUSINESS_CONFIG.name} | ${BUSINESS_CONFIG.tagline}`, 
   description = BUSINESS_CONFIG.description,
   canonical = BUSINESS_CONFIG.url,
-  type = 'website' 
+  type = 'website',
+  image,
+  schemaMarkup
 }: SEOProps) {
   
-  // JSON-LD LocalBusiness Schema
-  const schema = {
+  // Default JSON-LD LocalBusiness Schema (Used if no custom schema is passed)
+  const defaultSchema = {
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
     "name": BUSINESS_CONFIG.name,
@@ -61,6 +65,9 @@ export default function SEO({
     ]
   };
 
+  const finalSchema = schemaMarkup || defaultSchema;
+  const finalImage = image || `${BUSINESS_CONFIG.url}/og-image.jpg`;
+
   return (
     <Helmet>
       <title>{title}</title>
@@ -72,15 +79,17 @@ export default function SEO({
       <meta property="og:description" content={description} />
       <meta property="og:url" content={canonical} />
       <meta property="og:type" content={type} />
-      <meta property="og:image" content={`${BUSINESS_CONFIG.url}/og-image.jpg`} />
+      <meta property="og:image" content={finalImage} />
 
       {/* Twitter */}
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:title" content={title} />
       <meta name="twitter:description" content={description} />
+      <meta name="twitter:image" content={finalImage} />
 
+      {/* Structured Data */}
       <script type="application/ld+json">
-        {JSON.stringify(schema)}
+        {JSON.stringify(finalSchema)}
       </script>
     </Helmet>
   );

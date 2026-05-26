@@ -1,6 +1,7 @@
 import SEO from '../components/SEO';
 import Hero from '../sections/Hero';
 import Services from '../sections/Services';
+import FeaturedProducts from '../sections/FeaturedProducts'; // <--- Import added
 import WhyUs from '../sections/WhyUs';
 import MiniProcess from '../sections/MiniProcess';
 import FeaturedProof from '../sections/FeaturedProof';
@@ -19,6 +20,10 @@ export default function Home() {
       />
       <Hero />
       <Services limit={2} showViewAll={true} />
+      
+      {/* H8: Featured Products Section added here to build instant trust */}
+      <FeaturedProducts /> 
+      
       <WhyUs />
       <MiniProcess /> 
       <FeaturedProof /> 
@@ -27,7 +32,7 @@ export default function Home() {
       <FeaturedInsight />
       <MiniFAQ />
       
-      {/* H8: Compact CTA band */}
+      {/* Compact CTA band */}
       <Contact variant="preview" />
     </>
   );
