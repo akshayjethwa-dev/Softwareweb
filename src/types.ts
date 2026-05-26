@@ -6,7 +6,6 @@ export interface Service {
   outcomes: string[];
   bestFor: string;
   icon: string;
-  // Keeping older fields optional for backwards compatibility with other pages
   benefit?: string;
   description?: string;
   keyOutcomes?: string[];
@@ -45,7 +44,6 @@ export interface CaseStudy {
   imageUrl: string;
   techStack: string[];
   servicesUsed: string[];
-  // SEO fields
   metaTitle?: string;
   metaDescription?: string;
 }
@@ -99,6 +97,39 @@ export interface Article {
   tags: string[];
   metaTitle?: string;
   metaDescription?: string;
+}
+
+// --- NEW PRODUCT INTERFACE ---
+// Add this inside src/types.ts, replacing the previous Product interface
+export interface Product {
+  id: string;
+  name: string;
+  slug: string;
+  tagline: string;
+  status: 'live' | 'beta' | 'private' | 'available-for-licensing' | 'white-label-ready';
+  productType?: 'saas' | 'internal-tool' | 'marketplace' | 'automation-platform' | 'fintech-platform';
+  description: string;
+  fullDescription: string;
+  primaryProblemSolved?: string;
+  idealFor?: string;
+  keyFeatures: { title: string; description?: string }[];
+  keyOutcomes?: string[];
+  coverImageUrl?: string;
+  logoUrl?: string;
+  gallery?: { url: string; caption?: string }[];
+  demoUrl?: string;
+  ctaLabel: string;
+  ctaUrl?: string;
+  pricingModel?: 'custom' | 'license' | 'subscription' | 'private';
+  startingPriceText?: string;
+  showOnWebsite: boolean;
+  featuredProduct?: boolean;
+  seoTitle?: string;
+  seoDescription?: string;
+  // Deep references
+  industries?: { _id: string; name: string; slug: { current: string } }[];
+  servicesRelated?: { _id: string; title: string; slug: string; icon: string }[];
+  faqs?: FAQ[];
 }
 
 export interface SiteConfig {

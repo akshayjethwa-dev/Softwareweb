@@ -1,8 +1,9 @@
 import { NavItem } from '../types';
 
 export const navItems: NavItem[] = [
-  { label: 'Home', href: '/' }, // Changed from /#hero
+  { label: 'Home', href: '/' },
   { label: 'Services', href: '/services' },
+  { label: 'Products', href: '/products' }, 
   { label: 'Industries', href: '/industries' },
   { label: 'Case Studies', href: '/case-studies' },
   { label: 'Insights', href: '/insights' },

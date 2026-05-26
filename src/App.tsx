@@ -26,6 +26,8 @@ import ProcessPage from './pages/ProcessPage';
 import TechStackPage from './pages/TechStackPage';
 import FAQPage from './pages/FAQPage';
 import ContactPage from './pages/ContactPage';
+import ProductsPage from './pages/ProductsPage';
+import ProductDetail from './pages/ProductDetail'; // <-- Imported New Detail Page
 
 // Scroll to top on route change
 function ScrollToTop() {
@@ -66,6 +68,7 @@ export default function App() {
             <Route path="/thank-you" element={<ThankYou />} />
             
             {/* New Dedicated Section Pages */}
+            <Route path="/products" element={<ProductsPage />} />
             <Route path="/services" element={<ServicesPage />} />
             <Route path="/industries" element={<IndustriesPage />} />
             <Route path="/case-studies" element={<CaseStudiesPage />} />
@@ -76,6 +79,7 @@ export default function App() {
             <Route path="/contact" element={<ContactPage />} />
             
             {/* Detail & Blog Pages */}
+            <Route path="/products/:slug" element={<ProductDetail />} /> {/* <-- Added Route */}
             <Route path="/services/:slug" element={<ServiceDetail />} />
             <Route path="/case-studies/:slug" element={<CaseStudyDetail />} />
             <Route path="/insights" element={<Blog />} />

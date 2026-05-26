@@ -40,6 +40,169 @@ const whyUsPoint = defineType({
   ]
 })
 
+// --- PRODUCT SCHEMA (TASKS 1.1, 1.2, 1.3) ---
+
+const product = defineType({
+  name: 'product',
+  title: 'Product',
+  type: 'document',
+  // Task 1.3: Preview configuration
+  preview: {
+    select: {
+      title: 'name',
+      status: 'status',
+      productType: 'productType',
+      media: 'coverImage',
+      logo: 'logo'
+    },
+    prepare({ title, status, productType, media, logo }) {
+      const subtitleArray = [
+        status ? status.replace(/-/g, ' ').toUpperCase() : 'NO STATUS',
+        productType ? productType.replace(/-/g, ' ').toUpperCase() : 'NO TYPE'
+      ]
+      return {
+        title: title || 'Untitled Product',
+        subtitle: subtitleArray.join(' | '),
+        media: media || logo
+      }
+    }
+  },
+  fields: [
+    // Core Info & Validation (Task 1.2)
+    defineField({ 
+      name: 'name', title: 'Product Name', type: 'string',
+      description: 'The official name of the product.',
+      validation: (Rule) => Rule.required().error('Product Name is strictly required.') 
+    }),
+    defineField({ 
+      name: 'slug', title: 'Slug', type: 'slug', options: { source: 'name' },
+      description: 'Used for the product page URL (e.g., /products/your-product-slug).',
+      validation: (Rule) => Rule.required() 
+    }),
+    defineField({ 
+      name: 'tagline', title: 'Short Tagline', type: 'string',
+      description: 'A catchy one-liner summarizing the product.',
+      validation: (Rule) => Rule.required() 
+    }),
+    defineField({ 
+      name: 'status', title: 'Status', type: 'string',
+      description: 'Current lifecycle state of the product.',
+      options: { list: ['live', 'beta', 'private', 'available-for-licensing', 'white-label-ready'] },
+      validation: (Rule) => Rule.required() 
+    }),
+    defineField({ 
+      name: 'productType', title: 'Product Type', type: 'string',
+      description: 'Categorization of the product structure.',
+      options: { list: ['saas', 'internal-tool', 'marketplace', 'automation-platform', 'fintech-platform'] }
+    }),
+    
+    // Descriptions
+    defineField({ 
+      name: 'description', title: 'Short Description', type: 'text',
+      description: 'A brief 1-2 sentence overview for cards and listings.',
+      validation: (Rule) => Rule.required() 
+    }),
+    defineField({ 
+      name: 'fullDescription', title: 'Full Description / Overview', type: 'text',
+      description: 'Comprehensive overview for the main product detail page.',
+      validation: (Rule) => Rule.required() 
+    }),
+    defineField({ name: 'primaryProblemSolved', title: 'Primary Problem Solved', type: 'text' }),
+    defineField({ name: 'idealFor', title: 'Ideal For', type: 'string', description: 'Who is this product built for?' }),
+    
+    // Features & Outcomes (Arrays)
+    defineField({ 
+      name: 'keyFeatures', title: 'Key Features', type: 'array', 
+      description: 'Add at least 3 core features of the product.',
+      validation: (Rule) => Rule.required().min(3).error('You must add at least 3 Key Features.'),
+      of: [{ 
+        type: 'object', 
+        fields: [
+          {name: 'title', title: 'Feature Title', type: 'string', validation: Rule => Rule.required()}, 
+          {name: 'description', title: 'Feature Description', type: 'text'}
+        ] 
+      }] 
+    }),
+    defineField({ name: 'keyOutcomes', title: 'Key Outcomes', type: 'array', of: [{ type: 'string' }] }),
+    
+    // Relationships
+    defineField({ 
+      name: 'industries', title: 'Industries', type: 'array', 
+      description: 'Select which industries this product applies to.',
+      of: [{ type: 'reference', to: [{ type: 'industry' }] }] 
+    }),
+    defineField({ 
+      name: 'servicesRelated', title: 'Related Services', type: 'array', 
+      of: [{ type: 'reference', to: [{ type: 'service' }] }] 
+    }),
+    
+    // Media
+    defineField({ 
+      name: 'coverImage', title: 'Cover Image', type: 'image', options: { hotspot: true },
+      description: 'Main image used for preview cards and headers.',
+      validation: (Rule) => Rule.required() 
+    }),
+    defineField({ 
+      name: 'gallery', 
+      title: 'Product Gallery / Screenshots', 
+      type: 'array', 
+      of: [{ 
+        type: 'image', 
+        options: { hotspot: true },
+        fields: [
+          {
+            name: 'caption',
+            type: 'string',
+            title: 'Caption',
+            description: 'What does this screenshot show?'
+          }
+        ]
+      }] 
+    }),
+    defineField({ name: 'logo', title: 'Product Logo / Wordmark', type: 'image', options: { hotspot: true } }),
+    
+    // Calls to Action & Pricing
+    defineField({ name: 'demoUrl', title: 'Demo URL', type: 'url' }),
+    defineField({ 
+      name: 'ctaLabel', title: 'CTA Label', type: 'string',
+      description: 'Text for the primary button (e.g., "Request Demo", "Get Started").',
+      validation: (Rule) => Rule.required() 
+    }),
+    defineField({ name: 'ctaUrl', title: 'CTA URL', type: 'url' }),
+    defineField({ 
+      name: 'pricingModel', title: 'Pricing Model', type: 'string',
+      options: { list: ['custom', 'license', 'subscription', 'private'] }
+    }),
+    defineField({ name: 'startingPriceText', title: 'Starting Price Text', type: 'string', description: 'e.g., "Starts at $99/mo" or "Custom Pricing"' }),
+    
+    // Toggles & Admin
+    defineField({ 
+      name: 'showOnWebsite', title: 'Product Visibility Toggle (Show on Website)', type: 'boolean', initialValue: true,
+      description: 'Turn off to hide this product from the public frontend.',
+      validation: (Rule) => Rule.required()
+    }),
+    defineField({ name: 'featuredProduct', title: 'Featured Toggle', type: 'boolean', initialValue: false }),
+    defineField({ name: 'order', title: 'Sort Order', type: 'number', description: 'Used to control display order.' }),
+    
+    // SEO Settings
+    defineField({ 
+      name: 'seoTitle', title: 'SEO Title', type: 'string',
+      description: 'Title tag for search engines (Recommended: 50-60 characters).',
+      validation: (Rule) => Rule.required() 
+    }),
+    defineField({ 
+      name: 'seoDescription', title: 'SEO Description', type: 'text',
+      description: 'Meta description for search engines (Recommended: 150-160 characters).',
+      validation: (Rule) => Rule.required() 
+    }),
+    defineField({ name: 'seoKeywords', title: 'SEO Keywords', type: 'string', description: 'Comma-separated keywords.' }),
+    
+    // FAQs
+    defineField({ name: 'faqs', title: 'FAQ References', type: 'array', of: [{ type: 'reference', to: [{ type: 'faq' }] }] }),
+  ]
+})
+
+
 // --- EXISTING SCHEMAS ---
 
 const siteSettings = defineType({
@@ -65,7 +228,7 @@ const service = defineType({
     defineField({ name: 'title', title: 'Title', type: 'string' }),
     defineField({ name: 'slug', title: 'Slug', type: 'slug', options: { source: 'title' } }),
     defineField({ name: 'icon', title: 'Icon Name', type: 'string' }),
-    defineField({ name: 'order', title: 'Display Order', type: 'number', description: 'Used to sort items on the website (e.g., 1, 2, 3)' }), // Added missing field
+    defineField({ name: 'order', title: 'Display Order', type: 'number', description: 'Used to sort items on the website (e.g., 1, 2, 3)' }), 
     defineField({ name: 'problem', title: 'The Problem', type: 'text' }),
     defineField({ name: 'solution', title: 'The Solution', type: 'text' }),
     defineField({ name: 'outcomes', title: 'Key Outcomes', type: 'array', of: [{ type: 'string' }] }),
@@ -84,7 +247,7 @@ const caseStudy = defineType({
   fields: [
     defineField({ name: 'title', title: 'Project Title', type: 'string' }),
     defineField({ name: 'slug', title: 'Slug', type: 'slug', options: { source: 'title' } }),
-    defineField({ name: 'order', title: 'Display Order', type: 'number', description: 'Used to sort case studies on the website (e.g., 1, 2, 3)' }), // Added missing field
+    defineField({ name: 'order', title: 'Display Order', type: 'number', description: 'Used to sort case studies on the website (e.g., 1, 2, 3)' }), 
     defineField({ name: 'clientName', title: 'Client Name', type: 'string' }),
     defineField({ name: 'category', title: 'Category', type: 'string' }),
     defineField({ name: 'industryId', title: 'Industry ID', type: 'string' }),
@@ -119,7 +282,7 @@ const faq = defineType({
   fields: [
     defineField({ name: 'question', title: 'Question', type: 'string' }),
     defineField({ name: 'answer', title: 'Answer', type: 'text' }),
-    defineField({ name: 'order', title: 'Display Order', type: 'number', description: 'Used to sort FAQs' }), // Added missing field
+    defineField({ name: 'order', title: 'Display Order', type: 'number', description: 'Used to sort FAQs' }), 
   ]
 })
 
@@ -152,5 +315,6 @@ const plan = defineType({
 
 export const schemaTypes = [
   siteSettings, processStep, industry, whyUsPoint,
-  service, caseStudy, article, faq, testimonial, plan
+  service, caseStudy, article, faq, testimonial, plan,
+  product // <-- Added product to the schemaTypes export here
 ]
