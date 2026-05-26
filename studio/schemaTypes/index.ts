@@ -35,7 +35,7 @@ const whyUsPoint = defineType({
   fields: [
     defineField({ name: 'title', title: 'Title', type: 'string' }),
     defineField({ name: 'desc', title: 'Description', type: 'text' }),
-    defineField({ name: 'icon', title: 'Icon Name', type: 'string', description: 'Available: Zap, Target, Users, Code2, ShieldCheck, Rocket' }),
+    defineField({ name: 'icon', title: 'Icon Name', type: 'string' }),
     defineField({ name: 'order', title: 'Display Order', type: 'number' }),
   ]
 })
@@ -65,6 +65,7 @@ const service = defineType({
     defineField({ name: 'title', title: 'Title', type: 'string' }),
     defineField({ name: 'slug', title: 'Slug', type: 'slug', options: { source: 'title' } }),
     defineField({ name: 'icon', title: 'Icon Name', type: 'string' }),
+    defineField({ name: 'order', title: 'Display Order', type: 'number', description: 'Used to sort items on the website (e.g., 1, 2, 3)' }), // Added missing field
     defineField({ name: 'problem', title: 'The Problem', type: 'text' }),
     defineField({ name: 'solution', title: 'The Solution', type: 'text' }),
     defineField({ name: 'outcomes', title: 'Key Outcomes', type: 'array', of: [{ type: 'string' }] }),
@@ -83,6 +84,7 @@ const caseStudy = defineType({
   fields: [
     defineField({ name: 'title', title: 'Project Title', type: 'string' }),
     defineField({ name: 'slug', title: 'Slug', type: 'slug', options: { source: 'title' } }),
+    defineField({ name: 'order', title: 'Display Order', type: 'number', description: 'Used to sort case studies on the website (e.g., 1, 2, 3)' }), // Added missing field
     defineField({ name: 'clientName', title: 'Client Name', type: 'string' }),
     defineField({ name: 'category', title: 'Category', type: 'string' }),
     defineField({ name: 'industryId', title: 'Industry ID', type: 'string' }),
@@ -117,6 +119,7 @@ const faq = defineType({
   fields: [
     defineField({ name: 'question', title: 'Question', type: 'string' }),
     defineField({ name: 'answer', title: 'Answer', type: 'text' }),
+    defineField({ name: 'order', title: 'Display Order', type: 'number', description: 'Used to sort FAQs' }), // Added missing field
   ]
 })
 
@@ -148,6 +151,6 @@ const plan = defineType({
 })
 
 export const schemaTypes = [
-  siteSettings, processStep, industry, whyUsPoint, // newly added
+  siteSettings, processStep, industry, whyUsPoint,
   service, caseStudy, article, faq, testimonial, plan
 ]
