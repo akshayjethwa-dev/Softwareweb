@@ -61,7 +61,7 @@ export default function Contact({ variant = 'full' }: ContactProps) {
               </div>
               <div>
                 <h4 className="font-bold text-sm">Email Us</h4>
-                <p className="text-[10px] text-white/40 uppercase font-bold tracking-widest">hello@ashrey.systems</p>
+                <p className="text-[10px] text-white/40 uppercase font-bold tracking-widest">hello@ashreysystems.com</p>
               </div>
             </a>
             

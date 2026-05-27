@@ -4,7 +4,7 @@ export const BUSINESS_CONFIG = {
   description: 'A premium software development organization in Anand, Gujarat, specializing in B2B SaaS, Website and App creation, MSME workforce management, and WhatsApp automation.',
   url: 'https://ashrey.systems', // Replace with real URL
   whatsappNumber: '918460852903', // Replace with your real number
-  email: 'hello@ashrey.systems',
+  email: 'hello@ashreysystems.com',
   logo: 'https://ashrey.systems/logo.png',
   
   // Added Founder Details for centralization
