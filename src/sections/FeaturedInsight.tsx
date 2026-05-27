@@ -19,10 +19,10 @@ export default function FeaturedInsight() {
           
           <h4 className="text-[10px] font-black uppercase tracking-widest text-muted-foreground mb-4">Latest Engineering Insight</h4>
           <h3 className="text-2xl md:text-3xl font-bold tracking-tight mb-6">
-            Why Custom Internal Tools Outperform "Off-The-Shelf" SaaS Subscriptions
+            Why Local SMEs in India Need More Than Just a Facebook Page
           </h3>
           <p className="text-muted-foreground leading-relaxed mb-8 max-w-2xl mx-auto">
-            A technical breakdown of how owning your IP and building targeted software eliminates recurring operational bottlenecks and reduces long-term costs.
+            Most Indian SMEs rely only on WhatsApp and social media. Here’s why a proper website and simple internal tools change the game.
           </p>
           
           <Link 
