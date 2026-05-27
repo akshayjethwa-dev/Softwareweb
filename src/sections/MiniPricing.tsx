@@ -25,7 +25,7 @@ export default function MiniPricing() {
           <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
             <div className="text-left px-8 py-4 bg-white/10 rounded-2xl border border-white/20">
               <span className="block text-[10px] uppercase font-bold tracking-widest text-brand-accent mb-1">Partnerships Starting From</span>
-              <span className="text-3xl font-bold">$2,500<span className="text-lg text-white/50 font-normal">/mo</span></span>
+              <span className="text-3xl font-bold">₹24,999<span className="text-lg text-white/50 font-normal">/mo</span></span>
             </div>
             
             <Link 
