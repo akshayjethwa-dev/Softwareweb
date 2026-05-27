@@ -15,13 +15,11 @@ export default function Hero() {
     trackEvent('consultation_cta_click', { location: 'hero' });
     openModal();
   };
-
   const containerRef = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start start", "end start"]
   });
-
   const mockupY = useTransform(scrollYProgress, [0, 1], [0, -120]);
   const mockupScale = useTransform(scrollYProgress, [0, 0.5], [1, 1.05]);
   const metricsY = useTransform(scrollYProgress, [0, 0.5], [0, 20]);
