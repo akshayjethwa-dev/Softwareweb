@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { getSiteConfig, getNavItems, getServices } from '../content';
 import { Service } from '../types';
-import { Github, Twitter, Linkedin, Layout as LayoutIcon } from 'lucide-react';
+import { Github, Twitter, Linkedin } from 'lucide-react';
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
@@ -41,9 +41,12 @@ export default function Footer() {
           <div className="col-span-2 lg:col-span-2">
             <Link to="/" className="inline-block mb-6">
               <div className="flex items-center gap-3">
-                <div className="w-8 h-8 bg-brand-primary rounded-lg flex items-center justify-center transform hover:rotate-12 transition-transform">
-                  <LayoutIcon className="w-4 h-4 text-white" />
-                </div>
+                {/* REPLACED THE SQUARE DIV WITH YOUR IMAGE ICON */}
+                <img 
+                  src={config.logo} 
+                  alt="Ashrey Systems Icon" 
+                  className="w-8 h-8 object-contain hover:scale-105 transition-transform" 
+                />
                 <span className="text-xl font-black tracking-tighter text-brand-primary">
                   {firstName}
                   {restName && <span className="text-brand-accent"> {restName}.</span>}

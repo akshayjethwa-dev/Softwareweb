@@ -5,7 +5,7 @@ export const BUSINESS_CONFIG = {
   url: 'https://ashrey.systems', // Replace with real URL
   whatsappNumber: '918460852903', // Replace with your real number
   email: 'hello@ashreysystems.com',
-  logo: 'https://ashrey.systems/logo.png',
+  logo: '/logo.png',
   
   // Added Founder Details for centralization
   founderName: 'Akshay Jethwa', // Update to full name if desired
