@@ -15,7 +15,9 @@ import Blog from './pages/Blog';
 import ArticleDetail from './pages/ArticleDetail';
 import ThankYou from './pages/ThankYou';
 import NotFound from './pages/NotFound';
-import { persistUTMs } from './lib/analytics';
+
+// Updated imports to include GA4 initialization and tracking
+import { persistUTMs, initAnalytics, trackPageView } from './lib/analytics';
 
 // Import New Dedicated Section Pages
 import ServicesPage from './pages/ServicesPage';
@@ -27,7 +29,7 @@ import TechStackPage from './pages/TechStackPage';
 import FAQPage from './pages/FAQPage';
 import ContactPage from './pages/ContactPage';
 import ProductsPage from './pages/ProductsPage';
-import ProductDetail from './pages/ProductDetail'; // <-- Imported New Detail Page
+import ProductDetail from './pages/ProductDetail'; 
 
 // Scroll to top on route change
 function ScrollToTop() {
@@ -47,11 +49,21 @@ function ScrollToTop() {
   return null;
 }
 
-// Initial tracker
+// Updated Analytics & UTM Tracker
 function AnalyticsInit() {
+  const location = useLocation();
+
+  // 1. Initialize GA4 and persist UTMs once when the app loads
   useEffect(() => {
+    initAnalytics();
     persistUTMs();
   }, []);
+
+  // 2. Track a page view every time the route (URL) changes
+  useEffect(() => {
+    trackPageView(location.pathname + location.search);
+  }, [location]);
+
   return null;
 }
 
@@ -79,7 +91,7 @@ export default function App() {
             <Route path="/contact" element={<ContactPage />} />
             
             {/* Detail & Blog Pages */}
-            <Route path="/products/:slug" element={<ProductDetail />} /> {/* <-- Added Route */}
+            <Route path="/products/:slug" element={<ProductDetail />} /> 
             <Route path="/services/:slug" element={<ServiceDetail />} />
             <Route path="/case-studies/:slug" element={<CaseStudyDetail />} />
             <Route path="/insights" element={<Blog />} />

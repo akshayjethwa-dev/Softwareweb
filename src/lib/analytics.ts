@@ -1,3 +1,5 @@
+import ReactGA from 'react-ga4';
+
 /**
  * Analytics utility for tracking user behavior and conversions.
  * Primarily designed for GA4 (Google Analytics 4).
@@ -9,6 +11,27 @@ declare global {
     dataLayer?: any[];
   }
 }
+
+// ==========================================
+// 1. GA4 INITIALIZATION & PAGE TRACKING
+// ==========================================
+
+export const initAnalytics = () => {
+  const trackingId = import.meta.env.VITE_GA_MEASUREMENT_ID;
+  if (trackingId) {
+    ReactGA.initialize(trackingId);
+  } else {
+    console.warn('Google Analytics Measurement ID is missing.');
+  }
+};
+
+export const trackPageView = (path: string) => {
+  ReactGA.send({ hitType: 'pageview', page: path });
+};
+
+// ==========================================
+// 2. CUSTOM EVENT TRACKING
+// ==========================================
 
 export type EventName = 
   | 'consultation_cta_click'
@@ -55,6 +78,10 @@ export const trackEvent = (eventName: EventName, params: EventParams = {}) => {
     });
   }
 };
+
+// ==========================================
+// 3. UTM TRACKING UTILITIES
+// ==========================================
 
 /**
  * Utility to get UTM parameters from URL
