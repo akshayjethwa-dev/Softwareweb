@@ -18,7 +18,7 @@ export default function CaseStudiesPage() {
         </p>
       </div>
       <CaseStudies />
-      <Contact variant="preview" />
+      <Contact />
     </div>
   );
 }

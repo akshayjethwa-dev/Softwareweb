@@ -48,6 +48,8 @@ export interface CaseStudy {
   servicesUsed: string[];
   metaTitle?: string;
   metaDescription?: string;
+  role?: string;
+  timeline?: string;
   // Task 5.2: Added relatedProducts
   relatedProducts?: { id: string; name: string; slug: string; tagline: string; coverImageUrl?: string }[];
 }

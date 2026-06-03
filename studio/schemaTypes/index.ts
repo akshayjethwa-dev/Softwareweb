@@ -260,6 +260,15 @@ const service = defineType({
     defineField({ name: 'faqs', title: 'Related FAQs', type: 'array', of: [{ type: 'reference', to: [{ type: 'faq' }] }] }),
     // NEW: Task 5.1
     defineField({ name: 'relatedProducts', title: 'Relevant Products', type: 'array', of: [{ type: 'reference', to: [{ type: 'product' }] }] }),
+    
+    // NEW FIELD ADDED: Related Success Stories 
+    defineField({ 
+      name: 'relatedSuccessStories', 
+      title: 'Related Success Stories', 
+      type: 'array', 
+      of: [{ type: 'reference', to: [{ type: 'caseStudy' }] }], 
+      description: 'Select case studies related to this service.' 
+    }),
   ]
 })
 
@@ -279,6 +288,11 @@ const caseStudy = defineType({
     defineField({ name: 'image', title: 'Cover Image', type: 'image', options: { hotspot: true } }),
     defineField({ name: 'techStack', title: 'Tech Stack', type: 'array', of: [{ type: 'string' }] }),
     defineField({ name: 'servicesUsed', title: 'Services Used', type: 'array', of: [{ type: 'string' }] }),
+    
+    // NEW FIELDS ADDED: Role and Timeline
+    defineField({ name: 'role', title: 'Role', type: 'string', description: 'The role played in this case study (e.g., Lead Developer, Agency)' }),
+    defineField({ name: 'timeline', title: 'Timeline', type: 'string', description: 'The duration of the project (e.g., 3 Months, Q1 2024)' }),
+    
     // NEW: Task 5.2
     defineField({ name: 'relatedProducts', title: 'Products Used', type: 'array', of: [{ type: 'reference', to: [{ type: 'product' }] }] }),
   ]

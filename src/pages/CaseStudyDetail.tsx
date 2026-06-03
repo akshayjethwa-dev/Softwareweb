@@ -5,7 +5,7 @@ import { getCaseStudyById, getCaseStudies, getServices } from '../content';
 import Section from '../components/Section';
 import SEO from '../components/SEO';
 import Breadcrumbs from '../components/Breadcrumbs';
-import { CheckCircle2, ArrowLeft, ExternalLink, Code2, Target, Zap } from 'lucide-react';
+import { CheckCircle2, ArrowLeft, Code2, Target, Zap } from 'lucide-react';
 import Contact from '../sections/Contact';
 import { CaseStudy, Service } from '../types';
 
@@ -102,16 +102,15 @@ export default function CaseStudyDetail() {
               </div>
               <div>
                 <div className="text-xs font-bold uppercase tracking-widest text-muted-foreground mb-1">Industry</div>
-                {/* Fallback to category if industry name mapping is missing */}
                 <div className="font-bold">{project.category || 'Tech'}</div>
               </div>
               <div>
                 <div className="text-xs font-bold uppercase tracking-widest text-muted-foreground mb-1">Role</div>
-                <div className="font-bold">Engineering</div>
+                <div className="font-bold">{(project as any).role || 'Engineering'}</div>
               </div>
               <div>
                 <div className="text-xs font-bold uppercase tracking-widest text-muted-foreground mb-1">Timeline</div>
-                <div className="font-bold">12 Weeks</div>
+                <div className="font-bold">{(project as any).timeline || '12 Weeks'}</div>
               </div>
             </div>
           </motion.div>
@@ -200,12 +199,10 @@ export default function CaseStudyDetail() {
                 })}
               </ul>
 
-              {/* NEW: Task 5.2 - Products Used */}
               {project.relatedProducts && project.relatedProducts.length > 0 && (
                 <>
                   <h3 className="text-xl font-bold mb-4 border-t border-white/20 pt-8">Products Leveraged</h3>
                   <div className="space-y-4 mb-10">
-                    {/* Explicitly typed parameter */}
                     {project.relatedProducts.map((product: { id: string; name: string; slug: string; tagline: string; coverImageUrl?: string }) => (
                       <Link 
                         key={product.id} 
@@ -219,10 +216,6 @@ export default function CaseStudyDetail() {
                   </div>
                 </>
               )}
-
-              <button className="w-full py-4 bg-white text-brand-primary rounded-xl font-bold hover:shadow-xl transition-all flex items-center justify-center gap-2">
-                View Live Demo <ExternalLink className="w-4 h-4" />
-              </button>
             </div>
           </div>
         </div>

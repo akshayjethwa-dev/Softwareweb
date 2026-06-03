@@ -5,11 +5,21 @@ export async function fetchSiteConfig() {
 }
 
 export async function fetchServices() {
-  // Sorts by order first, then falls back to newest created
-  return sanityClient.fetch(`*[_type == "service"] | order(order asc, _createdAt desc)`)
+  // Added GROQ object expansions so the frontend gets the actual objects, not just references
+  return sanityClient.fetch(`*[_type == "service"] | order(order asc, _createdAt desc) {
+    ...,
+    "relatedProducts": relatedProducts[]->{ 
+      _id, name, "slug": slug.current, tagline, "coverImageUrl": coverImage.asset->url 
+    },
+    "relatedSuccessStories": relatedSuccessStories[]->{ 
+      _id, title, clientName, description, "slug": slug.current, "imageUrl": image.asset->url 
+    }
+  }`)
 }
 
 export async function fetchCaseStudies() {
+  // Because you are querying the whole document with '*', 
+  // 'role' and 'timeline' will automatically be fetched as long as they are defined in your Sanity Schema!
   return sanityClient.fetch(`*[_type == "caseStudy"] | order(order asc, _createdAt desc)`)
 }
 

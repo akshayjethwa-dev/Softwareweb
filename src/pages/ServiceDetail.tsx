@@ -5,7 +5,7 @@ import { getServiceById, getServices, getCaseStudies } from '../content';
 import Section from '../components/Section';
 import SEO from '../components/SEO';
 import Breadcrumbs from '../components/Breadcrumbs';
-import { ArrowRight, CheckCircle2, MessageCircle } from 'lucide-react';
+import { ArrowRight, CheckCircle2 } from 'lucide-react';
 import Contact from '../sections/Contact';
 import FAQ from '../sections/FAQ';
 import WhatsAppCTA from '../components/WhatsAppCTA';
@@ -190,7 +190,7 @@ export default function ServiceDetail() {
         <FAQ faqs={service.faqs} />
       )}
 
-      {/* NEW: Task 5.1 - Relevant Products */}
+      {/* Relevant Products */}
       {service.relatedProducts && service.relatedProducts.length > 0 && (
         <Section className="bg-muted/20 border-t border-border">
           <div className="text-center mb-12 max-w-2xl mx-auto">
@@ -198,7 +198,6 @@ export default function ServiceDetail() {
             <p className="text-muted-foreground">Ready-to-deploy software assets we use to accelerate this service.</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
-            {/* Explicitly typed parameter */}
             {service.relatedProducts.map((product: { id: string; name: string; slug: string; tagline: string; coverImageUrl?: string }) => (
               <Link 
                 key={product.id}
@@ -223,35 +222,42 @@ export default function ServiceDetail() {
         </Section>
       )}
 
-      <Section className="bg-background">
-        <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
-          <div>
-            <h2 className="text-3xl font-bold mb-4">Related Success Stories</h2>
-            <p className="text-muted-foreground">See how we applied these capabilities for our partners.</p>
-          </div>
-          <Link to="/#case-studies" className="text-brand-primary font-bold hover:underline flex items-center gap-2">
-            View All Work <ArrowRight className="w-4 h-4" />
-          </Link>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {allProjects.filter(p => p.servicesUsed?.includes(service.title)).map(project => (
-            <Link 
-              key={project.id}
-              to={`/case-studies/${project.id}`}
-              className="group block p-8 bg-muted/20 border border-border rounded-3xl hover:border-brand-primary transition-all"
-            >
-              <div className="aspect-video rounded-2xl overflow-hidden mb-6">
-                <img src={project.imageUrl} alt={project.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-              </div>
-              <h3 className="text-xl font-bold mb-2">{project.clientName}</h3>
-              <p className="text-muted-foreground text-sm line-clamp-2 mb-4">{project.description}</p>
-              <div className="flex items-center gap-2 text-brand-primary font-bold text-sm">
-                Case Study <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-              </div>
+      {/* Related Success Stories - CMS Driven */}
+      {(service as any).relatedSuccessStories && (service as any).relatedSuccessStories.length > 0 && (
+        <Section className="bg-background">
+          <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
+            <div>
+              <h2 className="text-3xl font-bold mb-4">Related Success Stories</h2>
+              <p className="text-muted-foreground">See how we applied these capabilities for our partners.</p>
+            </div>
+            <Link to="/#case-studies" className="text-brand-primary font-bold hover:underline flex items-center gap-2">
+              View All Work <ArrowRight className="w-4 h-4" />
             </Link>
-          ))}
-        </div>
-      </Section>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {(service as any).relatedSuccessStories.map((project: any) => (
+              <Link 
+                key={project._id || project.id}
+                to={`/case-studies/${project.slug || project.id}`}
+                className="group block p-8 bg-muted/20 border border-border rounded-3xl hover:border-brand-primary transition-all"
+              >
+                <div className="aspect-video rounded-2xl overflow-hidden mb-6">
+                  <img 
+                    src={project.imageUrl || project.image} 
+                    alt={project.title} 
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
+                  />
+                </div>
+                <h3 className="text-xl font-bold mb-2">{project.clientName}</h3>
+                <p className="text-muted-foreground text-sm line-clamp-2 mb-4">{project.description}</p>
+                <div className="flex items-center gap-2 text-brand-primary font-bold text-sm">
+                  Case Study <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                </div>
+              </Link>
+            ))}
+          </div>
+        </Section>
+      )}
 
       <Section className="bg-muted/30">
         <div className="text-center mb-12">

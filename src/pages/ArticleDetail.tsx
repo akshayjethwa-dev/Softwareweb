@@ -106,7 +106,7 @@ export default function ArticleDetail() {
 
               <div className="flex items-center gap-4">
                 <div className="w-12 h-12 bg-muted rounded-full overflow-hidden shrink-0">
-                  <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=100" alt={article.author} />
+                  <img src="/akshay.jpeg" alt={article.author} />
                 </div>
                 <div>
                   <div className="font-bold text-sm">{article.author}</div>
