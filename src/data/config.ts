@@ -2,7 +2,7 @@ export const BUSINESS_CONFIG = {
   name: 'Ashrey Systems', // Update this to your actual brand name if different
   tagline: 'Engineering the next generation of digital excellence.',
   description: 'A premium software development organization in Anand, Gujarat, specializing in B2B SaaS, Website and App creation, MSME workforce management, and WhatsApp automation.',
-  url: 'https://ashrey.systems', // Replace with real URL
+  url: 'https://ashreysystems.com', // Replace with real URL
   whatsappNumber: '918460852903', // Replace with your real number
   email: 'hello@ashreysystems.com',
   logo: '/logo.png',
@@ -10,10 +10,10 @@ export const BUSINESS_CONFIG = {
   // Added Founder Details for centralization
   founderName: 'Akshay Jethwa', // Update to full name if desired
   founderRole: 'Managing Director',
-  founderImage: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=800', // Replace with your actual photo URL
+  founderImage: '/akshay.jpeg', // Replace with your actual photo URL
   
   address: {
-    street: '102 Business Hub, Station Road',
+    street: '201, Radhaswami Sangat, Anand-Vidhyanagar road',
     city: 'Anand',
     region: 'Gujarat',
     postalCode: '388001',
@@ -25,8 +25,7 @@ export const BUSINESS_CONFIG = {
   },
   socials: {
     twitter: 'https://twitter.com/ashrey_systems',
-    linkedin: 'https://linkedin.com/company/ashrey_systems',
-    github: 'https://github.com/ashrey_systems',
+    linkedin: 'https://www.linkedin.com/company/ashrey-systems/',
   },
   defaultMessages: {
     consultation: 'Hello! I would like to book a free strategy session for my project.',

@@ -63,9 +63,7 @@ export default function Footer() {
               <a href={config.socials.linkedin} target="_blank" rel="noreferrer" className="p-2 border border-border rounded-lg hover:border-brand-primary transition-colors text-muted-foreground hover:text-brand-primary">
                 <Linkedin className="w-5 h-5" />
               </a>
-              <a href={config.socials.github} target="_blank" rel="noreferrer" className="p-2 border border-border rounded-lg hover:border-brand-primary transition-colors text-muted-foreground hover:text-brand-primary">
-                <Github className="w-5 h-5" />
-              </a>
+              
             </div>
           </div>
           
@@ -108,7 +106,7 @@ export default function Footer() {
         <div className="pt-8 border-t border-border flex flex-col md:flex-row justify-between items-center gap-6">
           <div className="text-xs text-muted-foreground space-y-1 text-center md:text-left">
             <p>© {currentYear} {config.name}. All rights reserved.</p>
-            <p>A premium software development studio based in {config.address.city}, {config.address.region}.</p>
+            <p>A premium software development company based in {config.address.city}, {config.address.region}.</p>
           </div>
           <div className="flex gap-8 text-xs text-muted-foreground uppercase tracking-widest font-semibold">
             <a href="#" className="hover:text-foreground transition-colors">Privacy Policy</a>
