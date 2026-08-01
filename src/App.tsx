@@ -15,6 +15,7 @@ import Blog from './pages/Blog';
 import ArticleDetail from './pages/ArticleDetail';
 import ThankYou from './pages/ThankYou';
 import NotFound from './pages/NotFound';
+import PrivacyPolicy from './pages/PrivacyPolicy';
 
 // Updated imports to include GA4 initialization and tracking
 import { persistUTMs, initAnalytics, trackPageView } from './lib/analytics';
@@ -78,6 +79,7 @@ export default function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/thank-you" element={<ThankYou />} />
+            <Route path="/privacy-policy" element={<PrivacyPolicy />} />
             
             {/* New Dedicated Section Pages */}
             <Route path="/products" element={<ProductsPage />} />

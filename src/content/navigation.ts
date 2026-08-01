@@ -12,4 +12,5 @@ export const navItems: NavItem[] = [
   { label: 'Tech Stack', href: '/tech-stack' },
   { label: 'FAQ', href: '/faq' },
   { label: 'Contact', href: '/contact' },
+  { label: 'Privacy Policy', href: '/privacy-policy' },
 ];

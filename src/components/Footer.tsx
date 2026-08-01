@@ -109,7 +109,7 @@ export default function Footer() {
             <p>A premium software development company based in {config.address.city}, {config.address.region}.</p>
           </div>
           <div className="flex gap-8 text-xs text-muted-foreground uppercase tracking-widest font-semibold">
-            <a href="#" className="hover:text-foreground transition-colors">Privacy Policy</a>
+            <a href="privacy-policy" className="hover:text-foreground transition-colors">Privacy Policy</a>
             <a href="#" className="hover:text-foreground transition-colors">Terms of Service</a>
           </div>
         </div>
